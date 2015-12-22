@@ -74,8 +74,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\HotelManagement.mdf" />
-    <Content Include="App_Data\HotelManagement_log.ldf">
+    <Content Include="Database\HotelManagement.mdf" />
+    <Content Include="Database\HotelManagement_log.ldf">
       <DependentUpon>HotelManagement.mdf</DependentUpon>
     </Content>
     <Content Include="Global.asax" />
