@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="alo895cb_congnghemoi" Class="HotelEntitiesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=112.78.2.50,1433;Initial Catalog=alo895cb_congnghemoi;Persist Security Info=True;User ID=alo895cb_congnghemoi" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="alo895cb_congnghemoiConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="alo895cb_congnghemoi.Booking" Member="Bookings">
+    <Type Name="Booking">
+      <Column Name="BookingID" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StaffReceived" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="Customer" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="BookingDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReceivingDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="BookingStatus" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Others" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Association Name="Booking_BookingDetail" Member="BookingDetails" ThisKey="BookingID" OtherKey="BookingID" Type="BookingDetail" />
+      <Association Name="Staff_Booking" Member="Staff" ThisKey="StaffReceived" OtherKey="StaffID" Type="Staff" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Customer_Booking" Member="Customer1" ThisKey="Customer" OtherKey="CustomerID" Type="Customer" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="alo895cb_congnghemoi.Staff" Member="Staffs">
+    <Type Name="Staff">
+      <Column Name="StaffID" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StaffName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="StaffBirth" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="StaffPhone" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="StaffPassword" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="PermissionID" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="Staff_Booking" Member="Bookings" ThisKey="StaffID" OtherKey="StaffReceived" Type="Booking" />
+      <Association Name="Permission_Staff" Member="Permission" ThisKey="PermissionID" OtherKey="PermissionID" Type="Permission" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="alo895cb_congnghemoi.BookingDetail" Member="BookingDetails">
+    <Type Name="BookingDetail">
+      <Column Name="BookingID" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoomID" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Booking_BookingDetail" Member="Booking" ThisKey="BookingID" OtherKey="BookingID" Type="Booking" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Room_BookingDetail" Member="Room" ThisKey="RoomID" OtherKey="RoomID" Type="Room" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="alo895cb_congnghemoi.Customer" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="CustomerID" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CustomerPassword" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Customer_Booking" Member="Bookings" ThisKey="CustomerID" OtherKey="Customer" Type="Booking" />
+    </Type>
+  </Table>
+  <Table Name="alo895cb_congnghemoi.Permission" Member="Permissions">
+    <Type Name="Permission">
+      <Column Name="PermissionID" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PermissionLevel" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PermissionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Token" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Permission_Staff" Member="Staffs" ThisKey="PermissionID" OtherKey="PermissionID" Type="Staff" />
+    </Type>
+  </Table>
+  <Table Name="alo895cb_congnghemoi.Room" Member="Rooms">
+    <Type Name="Room">
+      <Column Name="RoomID" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoomTypeID" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="Room_BookingDetail" Member="BookingDetails" ThisKey="RoomID" OtherKey="RoomID" Type="BookingDetail" />
+      <Association Name="RoomType_Room" Member="RoomType" ThisKey="RoomTypeID" OtherKey="RoomTypeID" Type="RoomType" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="alo895cb_congnghemoi.RoomFeature" Member="RoomFeatures">
+    <Type Name="RoomFeature">
+      <Column Name="FeatureID" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FeatureName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="alo895cb_congnghemoi.RoomType" Member="RoomTypes">
+    <Type Name="RoomType">
+      <Column Name="RoomTypeID" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoomTypeName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ListFeatures" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NoPeople" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="RoomType_Room" Member="Rooms" ThisKey="RoomTypeID" OtherKey="RoomTypeID" Type="Room" />
+    </Type>
+  </Table>
+</Database>
