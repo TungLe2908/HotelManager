@@ -43,6 +43,7 @@ namespace HotelManagerApi.Controllers
             try
             {
                 DB.Accounts.Attach(new_account);
+                DB.SubmitChanges();
                 return ApiResponse.CreateSuccess("Insert succefully");
             }
             catch
