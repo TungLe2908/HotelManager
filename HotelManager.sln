@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManagerApi", "HotelManagerApi\HotelManagerApi.csproj", "{ACCC749D-518B-42AC-8B08-CCC06FF15ADF}"
 EndProject
@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E756D9
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManagerWeb", "HotelManagerWeb\HotelManagerWeb.csproj", "{6775030D-5A1D-435F-9BD9-A9AD627A8F3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +24,10 @@ Global
 		{ACCC749D-518B-42AC-8B08-CCC06FF15ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACCC749D-518B-42AC-8B08-CCC06FF15ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACCC749D-518B-42AC-8B08-CCC06FF15ADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6775030D-5A1D-435F-9BD9-A9AD627A8F3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6775030D-5A1D-435F-9BD9-A9AD627A8F3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6775030D-5A1D-435F-9BD9-A9AD627A8F3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6775030D-5A1D-435F-9BD9-A9AD627A8F3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
