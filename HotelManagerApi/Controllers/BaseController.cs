@@ -11,5 +11,6 @@ namespace HotelManagerApi.Controllers
     public class BaseController : ApiController
     {
         public HotelEntitiesDataContext DB = new HotelEntitiesDataContext();
+        public int PermissionLevel { set; get; }
     }
 }

@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -100,6 +101,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ApiResponse.cs" />
+    <Compile Include="Utilities\CheckTokenAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
