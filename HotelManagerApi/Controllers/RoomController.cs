@@ -16,7 +16,7 @@ namespace HotelManagerApi.Controllers
         public ApiResponse AddRoom([FromBody]Room newRoom)
         {
             try{
-                DB.Rooms.Attach(newRoom);
+                DB.Rooms.InsertOnSubmit(newRoom);
                 DB.SubmitChanges();
                 return ApiResponse.CreateSuccess("Insert successfully");
             }
@@ -27,7 +27,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [CheckToken(new int[]{1})]
-        public ApiResponse DeleteRoom([FromBody] string RoomID)
+        public ApiResponse DeleteRoom([FromBody] int RoomID)
         {
             var del = DB.Rooms.Where(r => r.RoomID == RoomID);
             if (del.Count() >= 1)

@@ -1,5 +1,6 @@
 ﻿using HotelManagerApi.Controllers;
 using HotelManagerApi.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,20 +22,28 @@ namespace HotelManagerApi.Utilities
                 {
                     string Token = actionContext.Request.Headers.GetValues("token").First();
                     int PermissionLevel = -1;
-                    using (var DB = new HotelEntitiesDataContext())
+                    ApiResponse<OauthAccount> Result = null;
+                    using (var client = new HttpClient())
                     {
-                        var PermissionList = DB.Permissions.Where(p => p.Token.Equals(Token));
-                        if (PermissionList.Count() <= 0)
+                        String JsonResult = client.PostAsJsonAsync(GetConfig.Get("OauthUri") + "getaccount", Token).Result.Content.ReadAsStringAsync().Result;
+                        Result = JsonConvert.DeserializeObject<ApiResponse<OauthAccount>>(JsonResult);
+                    }
+
+
+                    if (Result.Code == ReturnCode.Fail)
+                    {
+                        actionContext.Response = new System.Net.Http.HttpResponseMessage()
                         {
-                            actionContext.Response = new System.Net.Http.HttpResponseMessage()
-                            {
-                                Content = new StringContent("Access token is incorrect"),
-                                StatusCode = HttpStatusCode.Unauthorized
-                            };
-                        }
-                        else
+                            Content = new StringContent("Access token is incorrect"),
+                            StatusCode = HttpStatusCode.Unauthorized
+                        };
+                    }
+                    else
+                    {
+                        using (var DB = new HotelEntitiesDataContext())
                         {
-                            PermissionLevel = PermissionList.First().PermissionLevel.Value;
+                            var PermissionID = DB.Accounts.Where(acc => acc.Email == Result.Data.Email).First().PermissionID;
+                            PermissionLevel = DB.Permissions.Where(per => per.PermissionID == PermissionID).First().PermissionLevel.Value;
                             if (PermissionLevelList.Contains(PermissionLevel))
                             {
                                 ((BaseController)actionContext.ControllerContext.Controller).PermissionLevel = PermissionLevel;
@@ -48,7 +57,7 @@ namespace HotelManagerApi.Utilities
                                 };
                             }
                         }
-                    } 
+                    }
                 }
                 else
                 {
@@ -59,7 +68,7 @@ namespace HotelManagerApi.Utilities
                     };
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 actionContext.Response = new System.Net.Http.HttpResponseMessage()
                 {

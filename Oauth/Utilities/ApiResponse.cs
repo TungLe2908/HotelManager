@@ -11,13 +11,6 @@ namespace HotelManagerApi.Utilities
         Success=1,
         EmailExists=3
     }
-
-    public class ApiResponse<T>
-    {
-        public ReturnCode Code { set; get; }
-        public T Data { set; get; }
-        public String Message { set; get; }
-    }
     public class ApiResponse
     {
         public ReturnCode Code { set; get; }
