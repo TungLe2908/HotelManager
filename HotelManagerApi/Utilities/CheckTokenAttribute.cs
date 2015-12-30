@@ -17,26 +17,38 @@ namespace HotelManagerApi.Utilities
         {
             try
             {
-                if (actionContext.Request.Content.Headers.Contains("token"))
+                if (actionContext.Request.Headers.Contains("token"))
                 {
                     string Token = actionContext.Request.Headers.GetValues("token").First();
                     int PermissionLevel = -1;
                     using (var DB = new HotelEntitiesDataContext())
                     {
-                        PermissionLevel = DB.Permissions.Where(p => p.Token.Equals(Token)).First().PermissionLevel.Value;
-                    }
-                    if (PermissionLevelList.Contains(PermissionLevel))
-                    {
-                        ((BaseController)actionContext.ControllerContext.Controller).PermissionLevel = PermissionLevel;
-                    }
-                    else
-                    {
-                        actionContext.Response = new System.Net.Http.HttpResponseMessage()
+                        var PermissionList = DB.Permissions.Where(p => p.Token.Equals(Token));
+                        if (PermissionList.Count() <= 0)
                         {
-                            Content = new StringContent("Insufficient permission to perform"),
-                            StatusCode = HttpStatusCode.Unauthorized
-                        };
-                    }
+                            actionContext.Response = new System.Net.Http.HttpResponseMessage()
+                            {
+                                Content = new StringContent("Access token is incorrect"),
+                                StatusCode = HttpStatusCode.Unauthorized
+                            };
+                        }
+                        else
+                        {
+                            PermissionLevel = PermissionList.First().PermissionLevel.Value;
+                            if (PermissionLevelList.Contains(PermissionLevel))
+                            {
+                                ((BaseController)actionContext.ControllerContext.Controller).PermissionLevel = PermissionLevel;
+                            }
+                            else
+                            {
+                                actionContext.Response = new System.Net.Http.HttpResponseMessage()
+                                {
+                                    Content = new StringContent("Insufficient permission to perform"),
+                                    StatusCode = HttpStatusCode.Unauthorized
+                                };
+                            }
+                        }
+                    } 
                 }
                 else
                 {
