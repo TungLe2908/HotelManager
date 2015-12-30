@@ -41,5 +41,28 @@ namespace Oauth.Controllers
                 return ApiResponse.CreateFail("Infomation is invalid");
             }
         }
+
+        [HttpPost]
+        public ApiResponse AddAccount([FromBody]Account newAccount)
+        {
+            bool existEmail = DB.Accounts.Where(a => a.Email == newAccount.Email).Count() > 0;
+            if (existEmail)
+            {
+                return ApiResponse.CreateFail("Email is invalid");
+            }
+            else
+            {
+                try
+                {
+                    DB.AddAccount(newAccount.Email,newAccount.Pass,newAccount.Phone,newAccount.Name);
+                    DB.SubmitChanges();
+                    return ApiResponse.CreateSuccess("Insert successfully");
+                }
+                catch (Exception ex)
+                {
+                    return ApiResponse.CreateFail(ex.Message);
+                }
+            }
+        }
     }
 }

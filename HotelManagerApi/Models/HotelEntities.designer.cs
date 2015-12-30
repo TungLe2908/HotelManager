@@ -161,6 +161,13 @@ namespace HotelManagerApi.Models
 		{
 			OnCreated();
 		}
+
+        public Account(string p1, int p2)
+        {
+            // TODO: Complete member initialization
+            this.p1 = p1;
+            this.p2 = p2;
+        }
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
 		public string Email
@@ -205,6 +212,8 @@ namespace HotelManagerApi.Models
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
+        private string p1;
+        private int p2;
 		
 		protected virtual void SendPropertyChanging()
 		{
