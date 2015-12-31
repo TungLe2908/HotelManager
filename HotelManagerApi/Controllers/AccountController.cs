@@ -14,61 +14,31 @@ namespace HotelManagerApi.Controllers
     public class AccountController : BaseController
     {
 
-        /*
-        [HttpPost]
-        public ApiResponse Login([FromBody]LoginRequest Request)
+        private ApiResponse AddAccount(OauthAccount newAccount, int PermissionLevel)
         {
-            
-            var tmp = new Room();
-            DB.Rooms.Attach(tmp);
-            DB.SubmitChanges();
-
-
-            var del = DB.Rooms.Where(Del).Select(r=>r.RoomTypeID).First();
-           // DB.Rooms.DeleteOnSubmit(del);
-
-            //select RoomTypeID from Rooms where RoomID=='1'
-            var listdel = from room in DB.Rooms where room.RoomID == "1" select room.RoomTypeID;
-
-
-            
-
-            var acc = DB.Accounts.Where(a => a.AccountName == Request.Username && a.AccountPassword == Request.Password);
-            if (acc.Count() >= 0)
-            {
-                var per = DB.Permissions.Where(p => p.PermissionID == acc.First().PermissionID);
-                return ApiResponse.CreateSuccess(per.First().Token);
-            }
-
-            return ApiResponse.CreateFail("Password is incorrect");
-
-        }
-            */
-
-        [HttpPost]
-        //[CheckToken(new int[] { 1 })]
-        public ApiResponse AddAccount([FromBody] FullAccount newAccount)
-        {
-            OauthAccount a = new OauthAccount(newAccount);
-            ApiResponse<OauthAccount> Result = null;
+            ApiResponse Result = null;
             using (var client = new HttpClient())
             {
-                String JsonResult = client.PostAsJsonAsync(GetConfig.Get("OauthUri") + "AddAccount", a).Result.Content.ReadAsStringAsync().Result;
-                Result = JsonConvert.DeserializeObject<ApiResponse<OauthAccount>>(JsonResult);
+                String JsonResult = client.PostAsJsonAsync(GetConfig.Get("OauthUri") + "AddAccount", newAccount).Result.Content.ReadAsStringAsync().Result;
+                Result = JsonConvert.DeserializeObject<ApiResponse>(JsonResult);
             }
 
 
             if (Result.Code == ReturnCode.Fail)
             {
-                return ApiResponse.CreateFail("Can't add account");
+                return ApiResponse.CreateFail("Oauth server has a problem");
             }
             else
             {
                 try
                 {
-                    DB.Accounts.InsertOnSubmit(new Account(newAccount.Email, newAccount.PermissionID));
+                    DB.Accounts.InsertOnSubmit(new Account()
+                    {
+                        Email = newAccount.Email,
+                        Permission = PermissionLevel
+                    });
                     DB.SubmitChanges();
-                    return ApiResponse.CreateSuccess("Add account successfully");
+                    return ApiResponse.CreateSuccess(null);
                 }
                 catch (Exception ex)
                 {
@@ -77,16 +47,19 @@ namespace HotelManagerApi.Controllers
             }
         }
 
-
-
-        /*
-        public bool Del(Room r)
+        [HttpPost]
+        //[CheckToken(new int[] { 1 })]
+        public ApiResponse AddCustomerAccount([FromBody] OauthAccount newAccount)
         {
-            return r.RoomID == "1";
+            return AddAccount(newAccount, 0);
         }
-         */
 
-
+        [HttpPost]
+        [CheckToken(new int[] { 2 })]
+        public ApiResponse AddStaffAccount([FromBody] OauthAccount newAccount)
+        {
+            return AddAccount(newAccount, 1);
+        }
     }
 
 }

@@ -3,7 +3,7 @@
   <Table Name="alo895cb_congnghemoi.Account" Member="Accounts">
     <Type Name="Account">
       <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="PermissionID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Permission" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="alo895cb_congnghemoi.RoomType" Member="RoomTypes">
@@ -34,8 +34,7 @@
   </Table>
   <Table Name="alo895cb_congnghemoi.Permission" Member="Permissions">
     <Type Name="Permission">
-      <Column Name="PermissionID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="PermissionLevel" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PermissionLevel" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="PermissionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>

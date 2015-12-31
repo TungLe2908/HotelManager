@@ -42,8 +42,7 @@ namespace HotelManagerApi.Utilities
                     {
                         using (var DB = new HotelEntitiesDataContext())
                         {
-                            var PermissionID = DB.Accounts.Where(acc => acc.Email == Result.Data.Email).First().PermissionID;
-                            PermissionLevel = DB.Permissions.Where(per => per.PermissionID == PermissionID).First().PermissionLevel.Value;
+                            PermissionLevel = DB.Accounts.Where(acc => acc.Email == Result.Data.Email).First().Permission.Value;
                             if (PermissionLevelList.Contains(PermissionLevel))
                             {
                                 ((BaseController)actionContext.ControllerContext.Controller).PermissionLevel = PermissionLevel;

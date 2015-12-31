@@ -12,6 +12,7 @@ namespace HotelManagerApi.Models
         public string Phone;
         public string Name;
         public string Token;
+        public OauthAccount() { }
         public OauthAccount(FullAccount a)
         {
             Email = a.Name;

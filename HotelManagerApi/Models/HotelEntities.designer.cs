@@ -145,7 +145,7 @@ namespace HotelManagerApi.Models
 		
 		private string _Email;
 		
-		private System.Nullable<int> _PermissionID;
+		private System.Nullable<int> _Permission;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -153,21 +153,14 @@ namespace HotelManagerApi.Models
     partial void OnCreated();
     partial void OnEmailChanging(string value);
     partial void OnEmailChanged();
-    partial void OnPermissionIDChanging(System.Nullable<int> value);
-    partial void OnPermissionIDChanged();
+    partial void OnPermissionChanging(System.Nullable<int> value);
+    partial void OnPermissionChanged();
     #endregion
 		
 		public Account()
 		{
 			OnCreated();
 		}
-
-        public Account(string p1, int p2)
-        {
-            // TODO: Complete member initialization
-            this.p1 = p1;
-            this.p2 = p2;
-        }
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
 		public string Email
@@ -189,22 +182,22 @@ namespace HotelManagerApi.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PermissionID", DbType="Int")]
-		public System.Nullable<int> PermissionID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Permission", DbType="Int")]
+		public System.Nullable<int> Permission
 		{
 			get
 			{
-				return this._PermissionID;
+				return this._Permission;
 			}
 			set
 			{
-				if ((this._PermissionID != value))
+				if ((this._Permission != value))
 				{
-					this.OnPermissionIDChanging(value);
+					this.OnPermissionChanging(value);
 					this.SendPropertyChanging();
-					this._PermissionID = value;
-					this.SendPropertyChanged("PermissionID");
-					this.OnPermissionIDChanged();
+					this._Permission = value;
+					this.SendPropertyChanged("Permission");
+					this.OnPermissionChanged();
 				}
 			}
 		}
@@ -212,8 +205,6 @@ namespace HotelManagerApi.Models
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
-        private string p1;
-        private int p2;
 		
 		protected virtual void SendPropertyChanging()
 		{
@@ -647,9 +638,7 @@ namespace HotelManagerApi.Models
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _PermissionID;
-		
-		private System.Nullable<int> _PermissionLevel;
+		private int _PermissionLevel;
 		
 		private string _PermissionName;
 		
@@ -657,9 +646,7 @@ namespace HotelManagerApi.Models
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnPermissionIDChanging(int value);
-    partial void OnPermissionIDChanged();
-    partial void OnPermissionLevelChanging(System.Nullable<int> value);
+    partial void OnPermissionLevelChanging(int value);
     partial void OnPermissionLevelChanged();
     partial void OnPermissionNameChanging(string value);
     partial void OnPermissionNameChanged();
@@ -670,28 +657,8 @@ namespace HotelManagerApi.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PermissionID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int PermissionID
-		{
-			get
-			{
-				return this._PermissionID;
-			}
-			set
-			{
-				if ((this._PermissionID != value))
-				{
-					this.OnPermissionIDChanging(value);
-					this.SendPropertyChanging();
-					this._PermissionID = value;
-					this.SendPropertyChanged("PermissionID");
-					this.OnPermissionIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PermissionLevel", DbType="Int")]
-		public System.Nullable<int> PermissionLevel
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PermissionLevel", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int PermissionLevel
 		{
 			get
 			{
