@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .background {
+        background: url('../../Image/Wallpaper.jpg') no-repeat center center fixed;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+    }
+
+    .center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .vercentertop {
+        position: absolute;
+        top: 50%;
+        transform: translate(0%, -60%);
+        width: 90%;
+    }
+    .vercenter {
+        position: absolute;
+        top: 50%;
+        transform: translate(0%, -45%);
+        width: 90%;
+    }
+
+    label {
+        color: rgba(31,0,77,1) !important;
+    }
+
+    input {
+        border-color: rgba(61,0,153,2) !important;
+    }
+
+    .form {
+        background-color: rgba(255, 255, 255, 0.85);
+        width: 300px;
+        height: 80%;
+        transform: translate(0%, 10%);
+        position: absolute;
+        right: 20px;
+        padding: 5px 15px 5px 15px;
+        border-style: solid none;
+        border-color: rgba(61,0,153,0.8);
+        border-width: thick;
+    }
+
+    .groupbtn {
+        margin-top: -20px;
+        right: 0;
+        display: inline-block;
+        position: absolute;
+    }
+
+    .title {
+        margin: -10px -15px;
+        color: rgba(61,0,153,0.8);
+        font-size: xx-large;
+        padding: 0.1px;
+        text-align: center;
+    }
+</style>
+<div class="background" layout="column" ng-controller="HomeCtrl as Ctrl">
+
+    <div class="form">
+        <div class="title">
+            <p>Hotel Transylvania</p>
+        </div>
+        <div class="vercentertop" ng-show="!isRegister">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Username</label>
+                <md-icon md-svg-src="../Image/ic_account_circle_black_24px.svg"></md-icon>
+                <input ng-model="Account.AccountUsername">
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Password</label>
+                <md-icon md-svg-src="../Image/ic_vpn_key_black_24px.svg"></md-icon>
+                <input ng-model="Account.AccountPassword" type="password">
+            </md-input-container>
+            <section class="groupbtn" layout="row" layout-align="right top" layout-wrap>
+                <md-button class="md-warn" ng-click="login()">Login</md-button>
+                <md-button class="md-accent" ng-click="isRegister=true">Register</md-button>
+            </section>
+        </div>
+
+        <div class="vercenter" ng-show="isRegister">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Username</label>
+                <md-icon md-svg-src="../Image/ic_account_circle_black_24px.svg"></md-icon>
+                <input ng-model="Account.AccountUsername">
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Password</label>
+                <md-icon md-svg-src="../Image/ic_vpn_key_black_24px.svg"></md-icon>
+                <input ng-model="Account.AccountPassword" type="password">
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Full name</label>
+                <md-icon md-svg-src="../Image/ic_assignment_ind_black_24px.svg"></md-icon>
+                <input ng-model="Account.AccountName" type="text">
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Email</label>
+                <md-icon md-svg-src="../Image/ic_email_black_24px.svg"></md-icon>
+                <input ng-model="Account.AccountEmail" type="email">
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Phone number</label>
+                <md-icon md-svg-src="../Image/ic_phone_black_24px.svg"></md-icon>
+                <input ng-model="Account.AccountPhone" type="text">
+            </md-input-container>
+            <section class="groupbtn" layout="row" layout-align="right top" layout-wrap>
+                <md-button class="md-warn" ng-click="isRegister=false">Back</md-button>
+                <md-button class="md-accent" ng-click="register()">Register</md-button>
+            </section>
+        </div>
+</div>
+    </div>
+<script src="~/Script/HomeCtrl.js"></script>
