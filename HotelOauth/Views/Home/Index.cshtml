@@ -68,11 +68,11 @@
 </style>
 <div class="background" layout="column" ng-controller="HomeCtrl as Ctrl">
 
-    <div class="form">
+    <div class="form" ng-init="onlyRegister = '@ViewBag.onlyRegister'">
         <div class="title">
-            <p>Hotel Transylvania</p>
+            <p>Aloraha Hotel</p>
         </div>
-        <div class="vercentertop" ng-show="!isRegister">
+        <div class="vercentertop" ng-show="!isRegister && !onlyRegister">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Email</label>
                 <md-icon md-svg-src="../Image/ic_email_black_24px.svg"></md-icon>
@@ -89,7 +89,7 @@
             </section>
         </div>
 
-        <div class="vercenter" ng-show="isRegister">
+        <div class="vercenter" ng-show="onlyRegister || isRegister">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Email</label>
                 <md-icon md-svg-src="../Image/ic_email_black_24px.svg"></md-icon>
@@ -111,7 +111,7 @@
                 <input ng-model="Account.Phone" type="text">
             </md-input-container>
             <section class="groupbtn" layout="row" layout-align="right top" layout-wrap>
-                <md-button class="md-warn" ng-click="isRegister=false">Back</md-button>
+                <md-button class="md-warn" ng-show="!onlyRegister" ng-click="isRegister=false">Back</md-button>
                 <md-button class="md-accent" ng-click="register()">Register</md-button>
             </section>
         </div>

@@ -42,10 +42,21 @@ namespace HotelManagerApi.Utilities
                     {
                         using (var DB = new HotelEntitiesDataContext())
                         {
-                            PermissionLevel = DB.Accounts.Where(acc => acc.Email == Result.Data.Email).First().Permission.Value;
+                            var ListAccount = DB.Accounts.Where(acc => acc.Email == Result.Data.Email);
+                            if (ListAccount.Count() == 0)
+                            {
+                                DB.Accounts.InsertOnSubmit(new Account() { Email = Result.Data.Email, Permission = 0 });
+                                DB.SubmitChanges();
+                                PermissionLevel = 0;
+                            }
+                            else
+                            {
+                                PermissionLevel = ListAccount.First().Permission.Value;
+                            }
                             if (PermissionLevelList.Contains(PermissionLevel))
                             {
                                 ((BaseController)actionContext.ControllerContext.Controller).PermissionLevel = PermissionLevel;
+                                ((BaseController)actionContext.ControllerContext.Controller).CurrentAccount = Result.Data;
                             }
                             else
                             {

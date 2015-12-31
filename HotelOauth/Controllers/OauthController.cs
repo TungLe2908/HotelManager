@@ -58,7 +58,7 @@ namespace Oauth.Controllers
                 {
                     DB.AddAccount(newAccount.Email, newAccount.Pass, newAccount.Phone, newAccount.Name);
                     DB.SubmitChanges();
-                    return ApiResponse.CreateSuccess("Insert successfully");
+                    return ApiResponse.CreateSuccess(newAccount.Email);
                 }
                 catch (Exception ex)
                 {

@@ -12,7 +12,15 @@ namespace HotelOauth.Controllers
         public ActionResult Index(String Redir)
         {
             ViewBag.Redir = Redir;
+            ViewBag.onlyRegister = false;
             return View();
+        }
+
+        public ActionResult Register(String Redir)
+        {
+            ViewBag.Redir = Redir;
+            ViewBag.onlyRegister = true;
+            return View("Index");
         }
     }
 }

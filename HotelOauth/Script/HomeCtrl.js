@@ -51,7 +51,15 @@
                             showMessage('Please use another email');
                         }
                         else {
-                            $scope.login();
+                            if ($scope.onlyRegister) {
+                                if (Redir) {
+                                    window.location.assign(Redir + Result.Data);
+                                }
+                            }
+                            else {
+
+                                $scope.login();
+                            }
                         }
                     });
                 }
