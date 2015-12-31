@@ -22,6 +22,7 @@
         transform: translate(0%, -60%);
         width: 90%;
     }
+
     .vercenter {
         position: absolute;
         top: 50%;
@@ -73,14 +74,14 @@
         </div>
         <div class="vercentertop" ng-show="!isRegister">
             <md-input-container class="md-block" flex-gt-sm>
-                <label>Username</label>
-                <md-icon md-svg-src="../Image/ic_account_circle_black_24px.svg"></md-icon>
-                <input ng-model="Account.AccountUsername">
+                <label>Email</label>
+                <md-icon md-svg-src="../Image/ic_email_black_24px.svg"></md-icon>
+                <input ng-model="Account.Email" type="email">
             </md-input-container>
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Password</label>
                 <md-icon md-svg-src="../Image/ic_vpn_key_black_24px.svg"></md-icon>
-                <input ng-model="Account.AccountPassword" type="password">
+                <input ng-model="Account.Password" type="password">
             </md-input-container>
             <section class="groupbtn" layout="row" layout-align="right top" layout-wrap>
                 <md-button class="md-warn" ng-click="login()">Login</md-button>
@@ -90,35 +91,33 @@
 
         <div class="vercenter" ng-show="isRegister">
             <md-input-container class="md-block" flex-gt-sm>
-                <label>Username</label>
-                <md-icon md-svg-src="../Image/ic_account_circle_black_24px.svg"></md-icon>
-                <input ng-model="Account.AccountUsername">
+                <label>Email</label>
+                <md-icon md-svg-src="../Image/ic_email_black_24px.svg"></md-icon>
+                <input ng-model="Account.Email" type="email">
             </md-input-container>
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Password</label>
                 <md-icon md-svg-src="../Image/ic_vpn_key_black_24px.svg"></md-icon>
-                <input ng-model="Account.AccountPassword" type="password">
+                <input ng-model="Account.Password" type="password">
             </md-input-container>
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Full name</label>
                 <md-icon md-svg-src="../Image/ic_assignment_ind_black_24px.svg"></md-icon>
-                <input ng-model="Account.AccountName" type="text">
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Email</label>
-                <md-icon md-svg-src="../Image/ic_email_black_24px.svg"></md-icon>
-                <input ng-model="Account.AccountEmail" type="email">
+                <input ng-model="Account.Name" type="text">
             </md-input-container>
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Phone number</label>
                 <md-icon md-svg-src="../Image/ic_phone_black_24px.svg"></md-icon>
-                <input ng-model="Account.AccountPhone" type="text">
+                <input ng-model="Account.Phone" type="text">
             </md-input-container>
             <section class="groupbtn" layout="row" layout-align="right top" layout-wrap>
                 <md-button class="md-warn" ng-click="isRegister=false">Back</md-button>
                 <md-button class="md-accent" ng-click="register()">Register</md-button>
             </section>
         </div>
-</div>
     </div>
+</div>
+<script>
+    var Redir = '@ViewBag.Redir';
+</script>
 <script src="~/Script/HomeCtrl.js"></script>
