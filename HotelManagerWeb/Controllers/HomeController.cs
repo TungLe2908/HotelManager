@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HotelManagerWeb.Utilities;
 
 namespace HotelManagerWeb.Controllers
 {
@@ -11,7 +12,18 @@ namespace HotelManagerWeb.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            if(Session.IsLogin() || Request.Cookies["Token"]!=null)
+            {
+                return Redirect("/booking/index");
+            }
             return View();
+        }
+
+        public ActionResult Login(string Token)
+        {
+            Session.Save(Token);
+            Response.Cookies.Add(new HttpCookie("Token", Token));
+            return Redirect("/booking/index");
         }
     }
 }
