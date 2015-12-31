@@ -14,5 +14,6 @@ namespace HotelManagerApi.Controllers
     {
         public HotelEntitiesDataContext DB = new HotelEntitiesDataContext();
         public int PermissionLevel { set; get; }
+        public OauthAccount CurrentAccount { set; get; }
     }
 }

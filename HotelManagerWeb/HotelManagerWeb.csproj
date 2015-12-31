@@ -83,13 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Image\ic_account_circle_black_24px.svg">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Image\ic_assignment_ind_black_24px.svg" />
-    <Content Include="Image\ic_email_black_24px.svg" />
-    <Content Include="Image\ic_phone_black_24px.svg" />
-    <Content Include="Image\ic_vpn_key_black_24px.svg" />
     <Content Include="Image\Wallpaper.jpg" />
     <Content Include="Script\HomeCtrl.js" />
     <Content Include="Web.config" />

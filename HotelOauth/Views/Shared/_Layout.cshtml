@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <title>@ViewBag.Title</title>
+</head>
+<body ng-app="Hotel" ng-cloak>
+
+    <div ng-controller="MainCtrl">
+
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+    <script>
+        var apiurl = "http://localhost:6533/"
+        var app = angular.module('Hotel', ['ngMaterial']);
+        app.controller("MainCtrl", MainCtrl);
+        function MainCtrl() {
+
+        }
+    </script>
+    @RenderBody()
+
+</body>
+
+</html>

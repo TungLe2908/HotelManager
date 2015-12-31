@@ -1,4 +1,5 @@
 ﻿using HotelManagerApi.Utilities;
+using HotelOauth.Models;
 using Oauth.Models;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,13 @@ namespace Oauth.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class OauthController : ApiController
     {
-        Oauth.Models.OauthDataContext DB = new Models.OauthDataContext();
+
+        OauthDataContext DB = new OauthDataContext();
         [HttpPost]
         public ApiResponse GetAccount([FromBody] string Token)
         {
             var ListAccount = DB.Accounts.Where(Acc => Acc.Token == Token);
-            if(ListAccount.Count()>0)
+            if (ListAccount.Count() > 0)
             {
                 return ApiResponse.CreateSuccess(AccountResponse.Create(ListAccount.First()));
             }
@@ -54,9 +56,9 @@ namespace Oauth.Controllers
             {
                 try
                 {
-                    DB.AddAccount(newAccount.Email,newAccount.Pass,newAccount.Phone,newAccount.Name);
+                    DB.AddAccount(newAccount.Email, newAccount.Pass, newAccount.Phone, newAccount.Name);
                     DB.SubmitChanges();
-                    return ApiResponse.CreateSuccess("Insert successfully");
+                    return ApiResponse.CreateSuccess(newAccount.Email);
                 }
                 catch (Exception ex)
                 {

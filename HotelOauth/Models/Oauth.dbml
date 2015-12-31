@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="cnlaptrinhhiendai" Class="OauthDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=cnlaptrinhhiendai.mssql.somee.com;Initial Catalog=cnlaptrinhhiendai;Persist Security Info=True;User ID=congnghemoi" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="cnlaptrinhhiendaiConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=cnlaptrinhhiendai.mssql.somee.com;Initial Catalog=cnlaptrinhhiendai;Persist Security Info=True;User ID=congnghemoi" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="cnlaptrinhhiendaiConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Account" Member="Accounts">
     <Type Name="Account">
       <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
