@@ -8,7 +8,7 @@ namespace HotelManagerApi.Models
     public class OauthAccount
     {
         public string Email;
-        public string Password;
+        public string Pass;
         public string Phone;
         public string Name;
         public string Token;
@@ -16,7 +16,7 @@ namespace HotelManagerApi.Models
         public OauthAccount(FullAccount a)
         {
             Email = a.Name;
-            Password = a.Password;
+            Pass = a.Password;
             Phone = a.Phone;
             Name = a.Name;
             Token = "null";

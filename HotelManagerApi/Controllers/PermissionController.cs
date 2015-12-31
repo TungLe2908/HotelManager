@@ -29,6 +29,12 @@ namespace HotelManagerApi.Controllers
             }
         }
 
+        [HttpGet]
+        [CheckToken(new int[] { 0,1,2})]
+        public ApiResponse GetPermission()
+        {
+            return ApiResponse.CreateSuccess(PermissionLevel);
+        }
 
         [HttpPost]
         public ApiResponse AddPermission([FromBody]Permission per)
