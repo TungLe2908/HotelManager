@@ -165,13 +165,15 @@ namespace HotelManagerApi.Controllers
             return ApiResponse.CreateFail("Can't update");
         }
 
+        [HttpPost]
         public ApiResponse getRoomFeature([FromBody] int ID)
         {
             var rt = DB.RoomTypes.Where(r => r.RoomTypeID == ID);
             if (rt.Count() > 0)
             {
                 var listFeature = rt.First().ListFeatures.Split(';');
-                return ApiResponse.CreateSuccess(listFeature);
+                var feature = DB.RoomFeatures.Where(r => listFeature.Contains(r.FeatureID.ToString())).Select(f => f.FeatureName).ToArray();
+                return ApiResponse.CreateSuccess(feature);
             }
             return ApiResponse.CreateFail("Can't find RoomType");
         }
@@ -185,6 +187,7 @@ namespace HotelManagerApi.Controllers
 
         
         [HttpPost]
+
         public ApiResponse getBooking([FromBody] DateRequest bDate)
         {
             var invalidBookingID = DB.Bookings.Where(b => !(b.DateStart > bDate.end || b.DateEnd < bDate.start) ).Select(id => id.BookingID).ToArray();
