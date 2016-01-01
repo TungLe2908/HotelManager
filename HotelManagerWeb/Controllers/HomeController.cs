@@ -25,5 +25,12 @@ namespace HotelManagerWeb.Controllers
             Response.Cookies.Add(new HttpCookie("Token", Token));
             return Redirect("/booking/index");
         }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Response.Cookies.Add(new HttpCookie("Token") {Expires = DateTime.Now.AddDays(-100) });
+            return Redirect("/");
+        }
     }
 }
