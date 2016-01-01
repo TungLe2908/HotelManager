@@ -229,8 +229,63 @@ namespace HotelManagerApi.Controllers
             
         }
 
+        [HttpPost]
+        public ApiResponse Booking([FromBody] BookingRequest Info) 
+        {
+            // check Info
+            if (Info.DateStart > Info.DateEnd || DateTime.Now > Info.DateStart)
+                return ApiResponse.CreateFail("Date is invalid");
 
-        public ApiResponse 
+            var account = DB.Accounts.Where(a => a.Email == Info.Email);
+            if (account.Count() <= 0)
+                return ApiResponse.CreateFail("Email not exist");
+
+            Booking b = new Booking();
+            b.BookingStatus = false;
+            b.DateStart = Info.DateStart;
+            b.DateEnd = Info.DateEnd;
+            b.Quantity = Info.Quantity;
+            b.Account = Info.Email;
+
+            try 
+            {
+                // Find Room:
+                var invalidBookingID = DB.Bookings.Where(bk => !(bk.DateStart > b.DateEnd || bk.DateEnd < b.DateStart)).Select(id => id.BookingID).ToArray();
+
+                var invalidRoom = DB.BookingDetails.Where(r => invalidBookingID.Contains((int)r.BookingID) == true).Select(id => id.RoomID).ToArray();
+
+                var RoomBeyoundType = DB.Rooms.Where(r => r.RoomTypeID == Info.RoomType).Select(r => r.RoomID).ToArray().Distinct();
+
+                List<int> validRoom = new List<int>();
+                for (int i = 0; i < RoomBeyoundType.Count(); i++)
+                {
+                    if (invalidRoom.Contains(RoomBeyoundType.ElementAt(i)) == false)
+                    {
+                        validRoom.Add(RoomBeyoundType.ElementAt(i));
+                    }
+                }
+                if (validRoom.Count() <= 0)
+                    return ApiResponse.CreateFail("Can't find available room");
+
+
+                DB.Bookings.InsertOnSubmit(b);
+                DB.SubmitChanges();
+
+                Booking nowBook = DB.Bookings.Where(p => p.Account == Info.Email && p.DateEnd == Info.DateEnd && p.DateStart == Info.DateStart).First();
+
+                BookingDetail bd = new BookingDetail();
+                bd.BookingID = nowBook.BookingID;
+                bd.RoomID = (validRoom.ElementAt(0));
+                DB.BookingDetails.InsertOnSubmit(bd);
+                DB.SubmitChanges();
+                return ApiResponse.CreateSuccess(bd);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.CreateFail(ex.Message);
+            }
+
+        }
 
 
         /*
