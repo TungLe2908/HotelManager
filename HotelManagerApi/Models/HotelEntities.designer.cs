@@ -239,6 +239,8 @@ namespace HotelManagerApi.Models
 		
 		private System.Nullable<int> _NoPeople;
 		
+		private string _Picture;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -253,6 +255,8 @@ namespace HotelManagerApi.Models
     partial void OnPriceChanged();
     partial void OnNoPeopleChanging(System.Nullable<int> value);
     partial void OnNoPeopleChanged();
+    partial void OnPictureChanging(string value);
+    partial void OnPictureChanged();
     #endregion
 		
 		public RoomType()
@@ -360,6 +364,26 @@ namespace HotelManagerApi.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Picture", DbType="NVarChar(MAX)")]
+		public string Picture
+		{
+			get
+			{
+				return this._Picture;
+			}
+			set
+			{
+				if ((this._Picture != value))
+				{
+					this.OnPictureChanging(value);
+					this.SendPropertyChanging();
+					this._Picture = value;
+					this.SendPropertyChanged("Picture");
+					this.OnPictureChanged();
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -391,9 +415,9 @@ namespace HotelManagerApi.Models
 		
 		private string _Account;
 		
-		private System.Nullable<System.DateTime> _BookingDate;
+		private System.Nullable<System.DateTime> _DateStart;
 		
-		private System.Nullable<System.DateTime> _ReceivingDate;
+		private System.Nullable<System.DateTime> _DateEnd;
 		
 		private System.Nullable<bool> _BookingStatus;
 		
@@ -409,10 +433,10 @@ namespace HotelManagerApi.Models
     partial void OnBookingIDChanged();
     partial void OnAccountChanging(string value);
     partial void OnAccountChanged();
-    partial void OnBookingDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnBookingDateChanged();
-    partial void OnReceivingDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnReceivingDateChanged();
+    partial void OnDateStartChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateStartChanged();
+    partial void OnDateEndChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateEndChanged();
     partial void OnBookingStatusChanging(System.Nullable<bool> value);
     partial void OnBookingStatusChanged();
     partial void OnQuantityChanging(System.Nullable<int> value);
@@ -466,42 +490,42 @@ namespace HotelManagerApi.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BookingDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> BookingDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateStart", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateStart
 		{
 			get
 			{
-				return this._BookingDate;
+				return this._DateStart;
 			}
 			set
 			{
-				if ((this._BookingDate != value))
+				if ((this._DateStart != value))
 				{
-					this.OnBookingDateChanging(value);
+					this.OnDateStartChanging(value);
 					this.SendPropertyChanging();
-					this._BookingDate = value;
-					this.SendPropertyChanged("BookingDate");
-					this.OnBookingDateChanged();
+					this._DateStart = value;
+					this.SendPropertyChanged("DateStart");
+					this.OnDateStartChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceivingDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ReceivingDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateEnd", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateEnd
 		{
 			get
 			{
-				return this._ReceivingDate;
+				return this._DateEnd;
 			}
 			set
 			{
-				if ((this._ReceivingDate != value))
+				if ((this._DateEnd != value))
 				{
-					this.OnReceivingDateChanging(value);
+					this.OnDateEndChanging(value);
 					this.SendPropertyChanging();
-					this._ReceivingDate = value;
-					this.SendPropertyChanged("ReceivingDate");
-					this.OnReceivingDateChanged();
+					this._DateEnd = value;
+					this.SendPropertyChanged("DateEnd");
+					this.OnDateEndChanged();
 				}
 			}
 		}

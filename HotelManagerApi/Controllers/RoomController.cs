@@ -164,7 +164,47 @@ namespace HotelManagerApi.Controllers
             }
             return ApiResponse.CreateFail("Can't update");
         }
+
+        public ApiResponse getRoomFeature([FromBody] int ID)
+        {
+            var rt = DB.RoomTypes.Where(r => r.RoomTypeID == ID);
+            if (rt.Count() > 0)
+            {
+                var listFeature = rt.First().ListFeatures.Split(';');
+                return ApiResponse.CreateSuccess(listFeature);
+            }
+            return ApiResponse.CreateFail("Can't find RoomType");
+        }
+
+        [HttpGet]
+        //[CheckToken(new int[]{1,2})]
+        public ApiResponse getRoomType()
+        {
+            return ApiResponse.CreateSuccess(DB.RoomTypes);
+        }
+
         
+        [HttpPost]
+        public ApiResponse getBooking([FromBody] DateRequest bDate)
+        {
+            var invalidBookingID = DB.Bookings.Where(b => !(b.DateStart > bDate.end || b.DateEnd < bDate.start) ).Select(id => id.BookingID).ToArray();
+
+            var invalidRoom = DB.BookingDetails.Where(r => invalidBookingID.Contains((int)r.BookingID) == true).Select(id => id.RoomID).ToArray();
+
+            var invalidRoomType = DB.Rooms.Where(r => invalidRoom.Contains((int)r.RoomID) == true).Select(id => id.RoomTypeID).ToArray();
+
+            var validRoomType = DB.Rooms.Where(r => invalidRoomType.Contains(r.RoomTypeID) == false).Select(id => id.RoomTypeID).ToArray().Distinct();
+
+            if (validRoomType.Count() > 0)
+            {
+                return ApiResponse.CreateSuccess(validRoomType);
+            }
+            else
+                return ApiResponse.CreateFail("No RomType available");
+            
+        }
+
+
 
         /*
         [HttpPost]
