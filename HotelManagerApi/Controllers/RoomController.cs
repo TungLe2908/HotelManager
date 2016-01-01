@@ -185,7 +185,19 @@ namespace HotelManagerApi.Controllers
             return ApiResponse.CreateSuccess(DB.RoomTypes);
         }
 
-        
+
+        private List<string> getFeatureName(List<string> ids)
+        {
+            List<string> re = new List<string>();
+            for (int i = 0; i < ids.Count(); i++)
+            {
+                string name = DB.RoomFeatures.Where(f => f.FeatureID == int.Parse(ids[i])).First().FeatureName;
+                re.Add(name);
+            }
+            return re;
+        }
+
+
         [HttpPost]
 
         public ApiResponse getBooking([FromBody] DateRequest bDate)
@@ -200,7 +212,25 @@ namespace HotelManagerApi.Controllers
 
             if (validRoomType.Count() > 0)
             {
-                return ApiResponse.CreateSuccess(validRoomType);
+                List<RoomTypeResponse> result = new List<RoomTypeResponse>();
+                for (int i = 0; i < validRoomType.Count(); i++)
+                {
+                    RoomTypeResponse r = new RoomTypeResponse();
+                    r.RoomTypeID = (int)validRoomType.ElementAt(i);
+                    RoomType rt = DB.RoomTypes.Where(t => t.RoomTypeID == r.RoomTypeID).First();
+                    r.RoomTypeName = rt.RoomTypeName;
+                    r.Price = (int)rt.Price;
+                    r.NoPeople = (int)rt.NoPeople;
+                    r.Picture = rt.Picture;
+
+                    // 
+                    r.Features = getFeatureName(rt.ListFeatures.Split(';').ToList());
+                    //r.Features = (rt.ListFeatures.Split(';').ToList());
+                    result.Add(r);
+                    
+                }
+                return ApiResponse.CreateSuccess(result);
+                    
             }
             else
                 return ApiResponse.CreateFail("No RomType available");
