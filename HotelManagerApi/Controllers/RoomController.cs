@@ -139,7 +139,7 @@ namespace HotelManagerApi.Controllers
 
         [HttpPost]
         //[CheckToken(new int[]{2})]
-        public ApiResponse updateRoomType([FromBody] RoomType newRoomType)
+        public ApiResponse UpdateRoomType([FromBody] RoomType newRoomType)
         {
             var roomList = DB.RoomTypes.Where(r => r.RoomTypeID == newRoomType.RoomTypeID);
             if (roomList.Count() > 0)
@@ -166,27 +166,20 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpPost]
-        public ApiResponse getRoomFeature([FromBody] int ID)
+        public ApiResponse GetRoomFeature([FromBody] int ID)
         {
             var rt = DB.RoomTypes.Where(r => r.RoomTypeID == ID);
             if (rt.Count() > 0)
             {
                 var listFeature = rt.First().ListFeatures.Split(';');
-                var feature = DB.RoomFeatures.Where(r => listFeature.Contains(r.FeatureID.ToString())).Select(f => f.FeatureName).ToArray();
+                var feature = DB.RoomFeatures.Where(r => listFeature.Contains(r.FeatureID.ToString())).Select(f => f.FeatureName).ToArray().Distinct();
                 return ApiResponse.CreateSuccess(feature);
             }
             return ApiResponse.CreateFail("Can't find RoomType");
         }
 
-        [HttpGet]
-        //[CheckToken(new int[]{1,2})]
-        public ApiResponse getRoomType()
-        {
-            return ApiResponse.CreateSuccess(DB.RoomTypes);
-        }
-
-
-        private List<string> getFeatureName(List<string> ids)
+       
+        private List<string> GetFeatureName(List<string> ids)
         {
             List<string> re = new List<string>();
             for (int i = 0; i < ids.Count(); i++)
@@ -199,8 +192,7 @@ namespace HotelManagerApi.Controllers
 
 
         [HttpPost]
-
-        public ApiResponse getBooking([FromBody] DateRequest bDate)
+        public ApiResponse GetBooking([FromBody] DateRequest bDate)
         {
             var invalidBookingID = DB.Bookings.Where(b => !(b.DateStart > bDate.end || b.DateEnd < bDate.start) ).Select(id => id.BookingID).ToArray();
 
@@ -224,7 +216,7 @@ namespace HotelManagerApi.Controllers
                     r.Picture = rt.Picture;
 
                     // 
-                    r.Features = getFeatureName(rt.ListFeatures.Split(';').ToList());
+                    r.Features = GetFeatureName(rt.ListFeatures.Split(';').ToList());
                     //r.Features = (rt.ListFeatures.Split(';').ToList());
                     result.Add(r);
                     
@@ -238,10 +230,12 @@ namespace HotelManagerApi.Controllers
         }
 
 
+        public ApiResponse 
+
 
         /*
         [HttpPost]
-        public ApiResponse deleteRoomType([FromBody] int ID)
+        public ApiResponse DeleteRoomType([FromBody] int ID)
         {
             var roomList = DB.Rooms.Where(r => r.RoomTypeID == ID);
             if (roomList.Count() > 0)
