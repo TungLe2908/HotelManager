@@ -6,29 +6,143 @@
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
     <title>@ViewBag.Title</title>
 </head>
-<body ng-app="Hotel" ng-cloak>
+<body ng-app="Hotel" ng-cloak layout="row">
+    <style>
+        .themebackground {
+            background-color: rgba(31,0,77,1);
+            color: white;
+        }
 
-    <div ng-controller="MainCtrl">
+        .background {
+            background: url('../../Image/Wallpaper.jpg') no-repeat center center fixed;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+        }
 
+        .themetext {
+            color: rgba(31,0,77,1);
+        }
+
+        .full{
+            height:100%;
+            width:100%;
+        }
+
+        .fullheight{
+            height:100%;
+        }
+
+        .navtra{
+            background-color:rgba(1,1,1,0.5) !important;
+        }
+        .toolbar{
+            background-color:#f9f9f9 !important;
+        }
+        .nav-header{
+            color:white;
+            text-align:center;
+            margin-top:15px;
+            height:100%;
+        }
+        .logo{
+            height:100px;
+        }
+        .transparent{
+            background-color:transparent !important;
+        }
+        .menuitem{
+            color:white;
+            text-align:center;
+            border-top:solid thin;
+            border-bottom:solid thin;
+            border-color: rgba(255,255,255,0.3) !important;
+            margin:30px 10px;
+        }
+        .menuitem:hover{
+            background-color:rgba(255,255,255,0.3) !important;
+            cursor:pointer;
+        }
+        .title{
+            color:rgba(31,0,77,1)!important;
+            font-size:x-large;
+            margin-left:20px;
+        }
+    </style>
+    <div class="full background" ng-controller="MainCtrl" layout="row" ng-show="toolbar">
+        <md-sidenav layout="column" class="site-sidenav md-sidenav-left md-whiteframe-z2 navtra" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+            <header class="nav-header">
+                <img src="~/Image/Logo.png" class="logo" />
+                    <h2 class="md-heading">Aloraha Hotel</h2>
+                
+            </header>
+            <md-content ng-view md-scroll-y flex layout-padding class="transparent">
+                @foreach (var item in ViewBag.MenuItems)
+                {
+                    <p class="menuitem" ng-click="Navigate('@item.Link')">@item.Text</p>
+                }
+            </md-content>
+        </md-sidenav>
+
+        <div layout="column" class="fullheight" flex>
+            <md-toolbar class="md-whiteframe-z2 site-content-toolbar toolbar">
+                <p md-toolbar-item class="title">
+                    @ViewBag.Title
+                </p>
+            </md-toolbar>
+            <md-content ng-view md-scroll-y flex layout-padding>
+                @RenderBody()
+            </md-content>
+        </div>
+        
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
-    
+
     <!-- Angular Material Library -->
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
     <script>
-        var apiurl = "http://localhost:6533/"
+        Date.prototype.addDays = function(days)
+        {
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        }
+        var permission = @ViewBag.Permission;
+        var apiurl = "http://localhost:6533/api/";
         var app = angular.module('Hotel', ['ngMaterial']);
-        app.controller("MainCtrl", MainCtrl);
-        function MainCtrl() {
+        app.directive('focusMe', function($timeout) {
+            return {
+                scope: { trigger: '=focusMe' },
+                link: function(scope, element) {
+                    scope.$watch('trigger', function(value) {
+                        if(value === true) { 
+                            //console.log('trigger',value);
+                            //$timeout(function() {
+                            element[0].focus();
+                            scope.trigger = false;
+                            //});
+                        }
+                    });
+                }
+            };
+        });
 
+
+
+        app.controller("MainCtrl", MainCtrl);
+        function MainCtrl($scope) {
+            $scope.Navigate = function(Link) {
+                location.href = Link;
+            }
         }
     </script>
-    @RenderBody()
-
+    @RenderSection("Script",false)
+    
+    
 </body>
 
 </html>

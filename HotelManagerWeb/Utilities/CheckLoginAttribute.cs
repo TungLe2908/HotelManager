@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelManagerWeb.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,8 @@ namespace HotelManagerWeb.Utilities
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if(!filterContext.HttpContext.Session.IsLogin())
+            var Session = filterContext.HttpContext.Session;
+            if(!Session.IsLogin())
             {
                 var CookieToken = filterContext.HttpContext.Request.Cookies["Token"];
                 if (CookieToken == null)
@@ -19,11 +21,16 @@ namespace HotelManagerWeb.Utilities
                 }
                 else
                 {
-                    if(!filterContext.HttpContext.Session.Save(CookieToken.Value))
+                    if(!Session.Save(CookieToken.Value))
                     {
-                        filterContext.Result = new RedirectResult("/home/index");
+                        filterContext.Result = new RedirectResult("/home/logout");
                     }
                 }
+            }
+            if (Session.IsLogin())
+            {
+                filterContext.Controller.ViewBag.MenuItems = Menu.Init(Session.GetPermission());
+                filterContext.Controller.ViewBag.Permission = Session.GetPermission();
             }
         }
     }

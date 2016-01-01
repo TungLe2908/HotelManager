@@ -1,7 +1,52 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Booking";
 }
+<style>
+    .room {
+        min-width: 400px;
+        max-width: 500px;
+        width: 40%;
+    }
 
-<h2>Index</h2>
+    .cover {
+        object-fit: cover;
+        width: 90%;
+        height: 100%;
+        margin-left: 10%;
+    }
+</style>
+<div ng-controller="BookingCtrl" layout="column">
+    <div layout="row">
+        <md-datepicker ng-model="Booking.FromDate" md-placeholder="Check in" ng-change="Booking.ToDate=Booking.FromDate.addDays(1)" md-min-date="toDay">
+        </md-datepicker>
+        <md-datepicker ng-model="Booking.ToDate" md-placeholder="Check out" md-min-date="Booking.FromDate.addDays(1)">
+        </md-datepicker>
+        <md-button class="md-primary" ng-click="Search()" ng-disabled="!Booking.FromDate || !Booking.ToDate || Booking.FromDate>=Booking.ToDate">🔎 Search</md-button>
+    </div>
+    <md-content ng-view md-scroll-y flex layout-padding>
+        <div layout="row" layout-wrap>
+            <md-card flex ng-repeat="RoomType in RoomTypes" class="room">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{RoomType.RoomTypeName}}</span>
+                        <span class="md-subhead">{{"Max people: "+RoomType.NoPeople}}</span>
+                        <span class="md-subhead">Room feature:</span>
+                        <span style="margin-left:10px" ng-repeat="Feature in RoomType.Features" class="md-subhead">{{"- " + Feature}}</span>
+                    </md-card-title-text>
+                    <md-card-title-media>
+                        <img class="cover" ng-src="{{RoomType.Picture}}" />
+                    </md-card-title-media>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <span style="margin-right:5px" class="md-subhead">{{"$"+RoomType.Price}}</span>
+                    <md-button style="font-weight:bolder" class="md-primary">Book</md-button>
+                </md-card-actions>
+            </md-card>
 
+        </div>
+    </md-content>
+</div>
+@section Script
+{
+    <script src="~/Script/BookingCtrl.js"></script>
+}

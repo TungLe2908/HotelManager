@@ -1,5 +1,6 @@
 ﻿(function () {
     'use strict';
+    var app = angular.module('Hotel', ['ngMaterial']);
     app.controller('HomeCtrl', HomeCtrl);
     function HomeCtrl($scope, $mdToast) {
         var init = function () {
