@@ -28,6 +28,29 @@ namespace HotelManagerApi.Controllers
                 return ApiResponse.CreateFail(ex.Message);
             }
         }
+
+        [HttpPost]
+        [CheckToken(new int[] { 2 })]
+        public ApiResponse DeleteStaff([FromBody] string Email)
+        {
+            try
+            {
+                var ListStaff = DB.Accounts.Where(a => a.Email == Email && a.Permission == 1);
+                if(ListStaff.Count()>0)
+                {
+                    DB.Accounts.DeleteOnSubmit(ListStaff.First());
+                    DB.SubmitChanges();
+
+                }
+                return ApiResponse.CreateSuccess(null);
+
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.CreateFail(ex.Message);
+            }
+        }
+
         [HttpGet]
         [CheckToken(new int[] { 0,1,2})]
         public ApiResponse GetAccount()
