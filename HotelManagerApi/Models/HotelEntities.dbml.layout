@@ -2,12 +2,6 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.75" name="HotelEntities">
   <DataContextMoniker Name="/HotelEntitiesDataContext" />
   <nestedChildShapes>
-    <classShape Id="bbabfdf3-8658-4179-ba5d-3b06dff881fb" absoluteBounds="0.75, 4.25, 2, 1.1939925130208344">
-      <DataClassMoniker Name="/HotelEntitiesDataContext/Account" />
-      <nestedChildShapes>
-        <elementListCompartment Id="687f1b70-93d4-491f-a5b8-7411a6f200e8" absoluteBounds="0.765, 4.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="10b98161-ffd7-44c2-a0f0-bce7ec1891d9" absoluteBounds="0.75, 0.875, 2, 1.9631982421875">
       <DataClassMoniker Name="/HotelEntitiesDataContext/RoomType" />
       <nestedChildShapes>
@@ -42,6 +36,12 @@
       <DataClassMoniker Name="/HotelEntitiesDataContext/RoomFeature" />
       <nestedChildShapes>
         <elementListCompartment Id="dd3dc782-14ba-4243-9a19-f2b0ceab5dd9" absoluteBounds="6.765, 4.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="fc671fc8-dda7-4d02-a576-eae718791242" absoluteBounds="0.5, 3, 2, 1.3862939453125">
+      <DataClassMoniker Name="/HotelEntitiesDataContext/Account" />
+      <nestedChildShapes>
+        <elementListCompartment Id="04a92597-69df-43cb-a398-2ede6887d98d" absoluteBounds="0.51500000000000012, 3.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

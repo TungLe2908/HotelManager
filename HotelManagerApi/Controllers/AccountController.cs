@@ -42,6 +42,14 @@ namespace HotelManagerApi.Controllers
             var ListAcc = DB.Accounts.Where(a => a.Permission == 0).Select(a => a.Email).ToArray();
             return ApiResponse.CreateSuccess(ListAcc);
         }
+
+        [HttpGet]
+        [CheckToken(new int[]{2})]
+        public ApiResponse GetStaffAccount()
+        {
+            var ListAcc = DB.Accounts.Where(a => a.Permission == 1).Select(a=>new {Email=a.Email,Name=a.Name}).ToArray();
+            return ApiResponse.CreateSuccess(ListAcc);
+        }
     }
 
 }

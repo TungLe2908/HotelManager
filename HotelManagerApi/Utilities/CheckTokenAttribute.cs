@@ -45,13 +45,19 @@ namespace HotelManagerApi.Utilities
                             var ListAccount = DB.Accounts.Where(acc => acc.Email == Result.Data.Email);
                             if (ListAccount.Count() == 0)
                             {
-                                DB.Accounts.InsertOnSubmit(new Account() { Email = Result.Data.Email, Permission = 0 });
+                                DB.Accounts.InsertOnSubmit(new Account() { Email = Result.Data.Email, Name= Result.Data.Name, Permission = 0 });
                                 DB.SubmitChanges();
                                 PermissionLevel = 0;
                             }
                             else
                             {
-                                PermissionLevel = ListAccount.First().Permission.Value;
+                                var account = ListAccount.First();
+                                if(account.Name!=Result.Data.Name)
+                                {
+                                    account.Name = Result.Data.Name;
+                                    DB.SubmitChanges();
+                                }
+                                PermissionLevel = account.Permission.Value;
                             }
                             if (PermissionLevelList.Contains(PermissionLevel))
                             {
