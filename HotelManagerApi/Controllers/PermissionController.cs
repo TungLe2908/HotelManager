@@ -37,6 +37,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpPost]
+        [CheckToken(new int[] { 2 })]
         public ApiResponse AddPermission([FromBody]Permission per)
         {
             try 

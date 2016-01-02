@@ -21,7 +21,9 @@ namespace HotelManagerApi.Controllers
             }
             return re;
         }
+        
         [HttpPost]
+        [CheckToken(new int[] { 0, 1, 2 })]
         public ApiResponse GetBooking([FromBody] DateRequest bDate)
         {
             var invalidBookingID = DB.Bookings.Where(b => !(b.DateStart > bDate.end || b.DateEnd < bDate.start)).Select(id => id.BookingID).ToArray();

@@ -13,7 +13,7 @@ namespace HotelManagerApi.Controllers
     {
 
         [HttpPost] 
-        //[CheckToken(new int[]{0,1,2})]
+        [CheckToken(new int[]{1,2})]
         public ApiResponse getStatisticByRoomType([FromBody] DateRequest dRequest)
         {
             var listBookingID = DB.Bookings.Where(b => b.BookingStatus == true && b.DateStart >= dRequest.start && b.DateEnd <= dRequest.end).Select(id => id.BookingID).ToArray();

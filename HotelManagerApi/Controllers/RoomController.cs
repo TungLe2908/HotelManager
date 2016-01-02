@@ -12,7 +12,7 @@ namespace HotelManagerApi.Controllers
     public class RoomController : BaseController
     {
         [HttpPost]
-        //[CheckToken(new int[]{2})]
+        [CheckToken(new int[]{2})]
         public ApiResponse AddRoom([FromBody]Room newRoom)
         {
             try
@@ -28,7 +28,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpPost]
-        //[CheckToken(new int[] { 2 })]
+        [CheckToken(new int[] { 2 })]
         public ApiResponse UpdateRoom([FromBody]Room newRoom)
         {
             var room = DB.Rooms.Where(r => r.RoomID == newRoom.RoomID);
@@ -45,7 +45,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpPost]
-        //[CheckToken(new int[]{2})]
+        [CheckToken(new int[]{2})]
         public ApiResponse DeleteRoom([FromBody] string RoomID)
         {
             var del = DB.Rooms.Where(r => r.RoomID == RoomID);
@@ -71,7 +71,7 @@ namespace HotelManagerApi.Controllers
 
 
         [HttpPost]
-        //[CheckToken(new int[]{2})]
+        [CheckToken(new int[]{2})]
         public ApiResponse AddRoomFeature([FromBody] RoomFeature newFeature)
         {
             try
@@ -87,7 +87,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpPost]
-        //[CheckToken(new int[]{2})]
+        [CheckToken(new int[]{2})]
         public ApiResponse UpdateRoomFeature([FromBody] RoomFeature newFeature)
         {
 
@@ -119,7 +119,7 @@ namespace HotelManagerApi.Controllers
 
 
         [HttpPost]
-        //[CheckToken(new int[]{2})]
+        [CheckToken(new int[]{2})]
         public ApiResponse AddRoomType([FromBody] RoomType newRoomType)
         {
             try
@@ -145,7 +145,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpPost]
-        //[CheckToken(new int[]{2})]
+        [CheckToken(new int[]{2})]
         public ApiResponse UpdateRoomType([FromBody] RoomType newRoomType)
         {
             var roomList = DB.RoomTypes.Where(r => r.RoomTypeID == newRoomType.RoomTypeID);
@@ -173,7 +173,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpPost]
-        //[CheckToken(new int[]{2})]
+        [CheckToken(new int[]{0, 1, 2})]
         public ApiResponse GetRoomFeature([FromBody] string ID)
         {
             var rt = DB.RoomTypes.Where(r => r.RoomTypeID == ID);
@@ -189,7 +189,7 @@ namespace HotelManagerApi.Controllers
 
       
         [HttpGet]
-        //[CheckToken(new int[]{1,2})]
+        [CheckToken(new int[]{0, 1,2})]
         public ApiResponse getRoomType()
         {
             var listRoomType = DB.RoomTypes.Select(t => new { RoomTypeID = t.RoomTypeID, RoomTypeName = t.RoomTypeName}).Distinct();
@@ -198,26 +198,7 @@ namespace HotelManagerApi.Controllers
 
       
 
-        /*
-        [HttpPost]
-        public ApiResponse DeleteRoomType([FromBody] int ID)
-        {
-            var roomList = DB.Rooms.Where(r => r.RoomTypeID == ID);
-            if (roomList.Count() > 0)
-            {
-                ApiResponse response;
-                for (int i=0; i<roomList.Count(); i++){
-                    response = DeleteRoom(roomList.ElementAt(i).RoomID);
-                    if (response.Code == 0)
-                        return ApiResponse.CreateFail(response.Message);
-                }
-                
-                DB.RoomTypes.DeleteAllOnSubmit(DB.RoomTypes.Where(rt => rt.RoomTypeID == ID));
-                DB.SubmitChanges();
-
-            }
-        }
-         */
+     
 
     }
 }
