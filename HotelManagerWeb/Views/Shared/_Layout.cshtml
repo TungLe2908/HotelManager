@@ -112,6 +112,7 @@
             return dat;
         }
         var permission = @ViewBag.Permission;
+        var token = @ViewBag.Token;
         var apiurl = "http://localhost:6533/api/";
         var app = angular.module('Hotel', ['ngMaterial']);
         app.directive('focusMe', function($timeout) {
@@ -130,7 +131,17 @@
                 }
             };
         });
+        app.filter('range', function() {
+            return function(input, total) {
+                total = parseInt(total);
 
+                for (var i=1; i<=total; i++) {
+                    input.push(i);
+                }
+
+                return input;
+            };
+        });
 
 
         app.controller("MainCtrl", MainCtrl);

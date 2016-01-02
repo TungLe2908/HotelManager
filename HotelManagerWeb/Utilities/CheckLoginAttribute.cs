@@ -31,6 +31,7 @@ namespace HotelManagerWeb.Utilities
             {
                 filterContext.Controller.ViewBag.MenuItems = Menu.Init(Session.GetPermission());
                 filterContext.Controller.ViewBag.Permission = Session.GetPermission();
+                filterContext.Controller.ViewBag.Token = Session.GetToken();
             }
         }
     }

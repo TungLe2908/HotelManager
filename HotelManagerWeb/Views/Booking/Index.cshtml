@@ -4,15 +4,13 @@
 <style>
     .room {
         min-width: 400px;
-        max-width: 500px;
+        max-width: 400px;
         width: 40%;
     }
 
     .cover {
-        object-fit: cover;
-        width: 90%;
-        height: 100%;
-        margin-left: 10%;
+        background-size: cover;
+
     }
 </style>
 <div ng-controller="BookingCtrl" layout="column">
@@ -26,7 +24,7 @@
     <md-content ng-view md-scroll-y flex layout-padding>
         <div layout="row" layout-wrap>
             <md-card flex ng-repeat="RoomType in RoomTypes" class="room">
-                <md-card-title>
+                <md-card-title ng-init="RoomType.Quantity=1">
                     <md-card-title-text>
                         <span class="md-headline">{{RoomType.RoomTypeName}}</span>
                         <span class="md-subhead">{{"Max people: "+RoomType.NoPeople}}</span>
@@ -34,12 +32,20 @@
                         <span style="margin-left:10px" ng-repeat="Feature in RoomType.Features" class="md-subhead">{{"- " + Feature}}</span>
                     </md-card-title-text>
                     <md-card-title-media>
-                        <img class="cover" ng-src="{{RoomType.Picture}}" />
+                        <div class="md-media-lg card-media cover" style="background:url('{{RoomType.Picture}}') no-repeat center center">
+                        </div>
                     </md-card-title-media>
                 </md-card-title>
                 <md-card-actions layout="row" layout-align="end center">
-                    <span style="margin-right:5px" class="md-subhead">{{"$"+RoomType.Price}}</span>
-                    <md-button style="font-weight:bolder" class="md-primary">Book</md-button>
+                    <span style="margin-right:5px" class="md-subhead">${{RoomType.Price}} x </span>
+                    <md-select ng-model="RoomType.Quantity" placeholder="Quanltity" class="width-100">
+                        <md-option ng-repeat="n in [] | range:RoomType.NoRoom" value="{{n}}">
+                            {{n}}
+                        </md-option>
+                    </md-select>
+                    <span style="margin-right:5px" class="md-subhead"> = </span>
+                    <span style="margin-right:5px;font-weight:bold" class="md-subhead">${{RoomType.Price * RoomType.Quantity}}</span>
+                    <md-button style="font-weight:bolder" class="md-primary" ng-click="Book(RoomType)">Book</md-button>
                 </md-card-actions>
             </md-card>
 

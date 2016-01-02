@@ -96,6 +96,7 @@
     <Content Include="Image\Wallpaper.jpg" />
     <Content Include="Script\BookingCtrl.js" />
     <Content Include="Script\HomeCtrl.js" />
+    <Content Include="Views\Booking\Dialog.html" />
     <Content Include="Views\Home\Index.cshtml">
       <SubType>Code</SubType>
     </Content>
