@@ -34,6 +34,14 @@ namespace HotelManagerApi.Controllers
         {
             return ApiResponse.CreateSuccess(CurrentAccount);
         }
+
+        [HttpGet]
+        [CheckToken(new int[] { 1, 2 })]
+        public ApiResponse GetCusAccount()
+        {
+            var ListAcc = DB.Accounts.Where(a => a.Permission == 0).Select(a => a.Email).ToArray();
+            return ApiResponse.CreateSuccess(ListAcc);
+        }
     }
 
 }
