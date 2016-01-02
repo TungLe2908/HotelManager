@@ -167,6 +167,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddStaffRequest.cs" />
     <Compile Include="Models\BookingHistoryResponse.cs" />
     <Compile Include="Models\FullAccount.cs" />
     <Compile Include="Models\HotelEntities.designer.cs">

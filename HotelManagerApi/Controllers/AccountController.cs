@@ -15,11 +15,11 @@ namespace HotelManagerApi.Controllers
     {
         [HttpPost]
         [CheckToken(new int[] { 2 })]
-        public ApiResponse AddStaffAccount([FromBody] string Email)
+        public ApiResponse AddStaffAccount([FromBody] AddStaffRequest Staff)
         {
             try
             {
-                DB.Accounts.InsertOnSubmit(new Account(){Email=Email,Permission=1});
+                DB.Accounts.InsertOnSubmit(new Account(){Email=Staff.Email,Permission=1,Name=Staff.Name});
                 DB.SubmitChanges();
                 return ApiResponse.CreateSuccess(null);
             }
