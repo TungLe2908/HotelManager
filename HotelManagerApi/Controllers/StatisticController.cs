@@ -19,7 +19,7 @@ namespace HotelManagerApi.Controllers
 
             var listRoomID = DB.BookingDetails.Where(b => listBookingID.Contains(b.BookingID) == true).Select(id => id.RoomID);
 
-            var listRooms = DB.Rooms.GroupBy(p => p.RoomTypeID, p => p.RoomID, (key, g) => new { RoomTypeID = key, Rooms = g.ToList() });
+            var listRooms = DB.Rooms.Where(r => listRoomID.Contains(r.RoomID) == true);//.GroupBy(p => p.RoomTypeID, p => p.RoomID, (key, g) => new { RoomTypeID = key, Rooms = g.ToList() });
 
             return ApiResponse.CreateFail("Test");
 

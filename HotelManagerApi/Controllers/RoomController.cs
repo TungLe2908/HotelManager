@@ -167,6 +167,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpPost]
+        //[CheckToken(new int[]{2})]
         public ApiResponse GetRoomFeature([FromBody] string ID)
         {
             var rt = DB.RoomTypes.Where(r => r.RoomTypeID == ID);
@@ -181,7 +182,13 @@ namespace HotelManagerApi.Controllers
 
 
       
-
+        [HttpGet]
+        //[CheckToken(new int[]{1,2})]
+        public ApiResponse getRoomType()
+        {
+            var listRoomType = DB.RoomTypes.Select(t => new { RoomTypeID = t.RoomTypeID, RoomTypeName = t.RoomTypeName}).Distinct();
+            return ApiResponse.CreateSuccess(listRoomType);
+        }
 
       
 
