@@ -11,11 +11,7 @@ namespace HotelManagerWeb.Models
         {
             var Result = new Menu();
             Result.Add(new MenuItem("Booking", "/booking/index"));
-            Result.Add(new MenuItem("Booking history", "/booking/history"));
-            if (Permission >= 1)
-            {
-                Result.Add(new MenuItem("Edit booking", "/booking/edit"));
-            }
+            Result.Add(new MenuItem("Booking management", "/booking/management"));
             Result.Add(new MenuItem("My account", "/account/index"));
             if (Permission >= 2)
             {

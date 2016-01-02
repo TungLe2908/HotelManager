@@ -15,12 +15,24 @@
 </style>
 <div ng-controller="BookingCtrl" layout="column">
     <div layout="row">
-        <md-datepicker ng-model="Booking.FromDate" md-placeholder="Check in" ng-change="Booking.ToDate=Booking.FromDate.addDays(1)" md-min-date="toDay">
+        <md-datepicker ng-model="Booking.FromDate" md-placeholder="Check in" ng-change="fromDateChange()" md-min-date="toDay">
         </md-datepicker>
-        <md-datepicker ng-model="Booking.ToDate" md-placeholder="Check out" md-min-date="Booking.FromDate.addDays(1)">
+        <md-datepicker ng-model="Booking.ToDate" md-placeholder="Check out" md-min-date="toDateMin">
         </md-datepicker>
         <md-button class="md-primary" ng-click="Search()" ng-disabled="!Booking.FromDate || !Booking.ToDate || Booking.FromDate>=Booking.ToDate">🔎 Search</md-button>
     </div>
+    <md-autocomplete md-selected-item="Booking.Email" md-search-text="searchText"
+                     md-floating-label="Customer email"
+                     md-items="item in searchAccount(searchText)" md-item-text="item"
+                     ng-show="permission>0"
+                     style="max-width:350px;margin-left:20px;margin-top:-15px;margin-bottom:-60px">
+        <md-item-template>
+            <span md-highlight-text="searchText">{{item}}</span>
+        </md-item-template>
+        <md-not-found>
+            No matches found.
+        </md-not-found>
+    </md-autocomplete>
     <md-content ng-view md-scroll-y flex layout-padding>
         <div layout="row" layout-wrap>
             <md-card flex ng-repeat="RoomType in RoomTypes" class="room">

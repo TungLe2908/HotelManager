@@ -95,6 +95,7 @@
     <Content Include="Image\Logo.png" />
     <Content Include="Image\Wallpaper.jpg" />
     <Content Include="Script\BookingCtrl.js" />
+    <Content Include="Script\BookManCtrl.js" />
     <Content Include="Script\HomeCtrl.js" />
     <Content Include="Views\Booking\Dialog.html" />
     <Content Include="Views\Home\Index.cshtml">
@@ -127,6 +128,7 @@
     <Content Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Booking\Index.cshtml" />
+    <Content Include="Views\Booking\Management.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

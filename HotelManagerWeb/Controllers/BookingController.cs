@@ -13,5 +13,9 @@ namespace HotelManagerWeb.Controllers
         {
             return View();
         }
+        public ActionResult Management()
+        {
+            return View();
+        }
     }
 }
