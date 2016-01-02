@@ -173,11 +173,11 @@
     <Compile Include="Models\OauthAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ApiResponse.cs" />
-    <Compile Include="Utilities\BookingRequest.cs" />
+    <Compile Include="Models\BookingRequest.cs" />
     <Compile Include="Utilities\CheckTokenAttribute.cs" />
-    <Compile Include="Utilities\DateRequest.cs" />
+    <Compile Include="Models\DateRequest.cs" />
     <Compile Include="Utilities\GetConfig.cs" />
-    <Compile Include="Utilities\RoomTypeResponse.cs" />
+    <Compile Include="Models\RoomTypeResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
