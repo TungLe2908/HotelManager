@@ -15,6 +15,7 @@ namespace HotelManagerApi.Models
         public string RoomType { set; get; }
         public List<String> ListRoom { set; get; }
         public int BookingID { set; get; }
+        public string Email { set; get; }
 
     }
 }

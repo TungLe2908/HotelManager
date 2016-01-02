@@ -106,12 +106,27 @@ namespace HotelManagerApi.Controllers
 
         [HttpPost]
         [CheckToken(new int[]{0,1,2})]
-        public ApiResponse GetBookingHistory([FromBody] string Email)
+        public ApiResponse GetBookingHistory([FromBody] BookingHistoryRequest Req)
         {
             try
             {
-                var BookingEmail = PermissionLevel == 0 ? CurrentAccount.Email : Email;
-                var ListBooking = DB.Bookings.Where(b => b.Account == BookingEmail).ToList();
+                var BookingEmail = PermissionLevel == 0 ? CurrentAccount.Email : Req.Email;
+                if(BookingEmail==null && Req.FromDate==null)
+                {
+                    return ApiResponse.CreateFail("Input error");
+                }
+                var ListBooking = DB.Bookings.Where(t=>true);
+                if (BookingEmail != null)
+                {
+                    ListBooking = ListBooking.Where(b => b.Account == BookingEmail);
+                }
+
+                if(Req.FromDate!=null)
+                {
+                    ListBooking = ListBooking.Where(b => b.DateStart == Req.FromDate);
+                }
+
+
                 List<BookingHistoryResponse> Result = new List<BookingHistoryResponse>();
 
                 foreach(var booking in ListBooking)
@@ -129,7 +144,8 @@ namespace HotelManagerApi.Controllers
                             DateStart = booking.DateStart.Value,
                             DateEnd = booking.DateEnd.Value,
                             RoomType = RoomType.First(),
-                            ListRoom = (from r in ListRoom select r.RoomID).ToList()
+                            ListRoom = (from r in ListRoom select r.RoomID).ToList(),
+                            Email = booking.Account
                         };
                         Result.Add(BookingRes);
                     }
