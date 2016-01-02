@@ -121,9 +121,9 @@ namespace HotelManagerApi.Controllers
                     ListBooking = ListBooking.Where(b => b.Account == BookingEmail);
                 }
 
-                if(Req.FromDate!=null)
+                if(PermissionLevel>0 && Req.FromDate!=null)
                 {
-                    ListBooking = ListBooking.Where(b => b.DateStart == Req.FromDate);
+                    ListBooking = ListBooking.Where(b => b.DateStart == Req.FromDate.Value);
                 }
 
 

@@ -2,21 +2,21 @@
     ViewBag.Title = "Booking Management";
 }
 <style>
-    table {
+   .table {
         border-collapse: collapse;
         width: 100%;
     }
 
-    th, td {
+    .table  th, .table td {
         text-align: left;
         padding: 15px;
     }
 
-    tr:nth-child(even) {
+    .table  tr:nth-child(even) {
         background-color: #f2f2f2;
     }
 
-    th {
+    .table th {
         font-weight: bold;
     }
     .xbutton{
@@ -30,7 +30,7 @@
 </style>
 <div ng-controller="BookManCtrl" layout="column">
     <div layout="row" ng-show="permission>0">
-        <md-autocomplete md-selected-item="Email" md-search-text="searchText"
+        <md-autocomplete md-selected-item="History.Email" md-search-text="searchText"
                          md-floating-label="Customer email"
                          md-items="item in searchAccount(searchText)" md-item-text="item"
                          style="max-width:400px;margin-left:20px;margin-top:-15px;margin-bottom:-60px">
@@ -41,9 +41,11 @@
                 No matches found.
             </md-not-found>
         </md-autocomplete>
+        <md-datepicker ng-model="History.FromDate" md-placeholder="From Date">
+        </md-datepicker>
         <md-button class="md-primary" ng-click="Search()">🔎 Search</md-button>
     </div>
-    <table ng-show="ListBooking.length>0">
+    <table class="table" ng-show="ListBooking.length>0">
         <tr>
             <th>
                 No.

@@ -36,12 +36,10 @@
             }
             $scope.Search = function () {
                 if (permission > 0) {
-                    if (!$scope.Email) {
-                        if (!$scope.Email || !ListAcc.contains($scope.Email)) {
-                            $rootScope.showMessage('Enter correct customer email!');
+                    if ((!$scope.History.Email || !ListAcc.contains($scope.History.Email)) && !$scope.History.FromDate) {
+                            $rootScope.showMessage('Enter correct condition');
                             return;
                         }
-                    }
                 }
                 var req = {
                     method: 'POST',
@@ -49,11 +47,14 @@
                     headers: {
                         'token': token
                     },
-                    data: '"' + $scope.Email + '"'
+                    data: { Email: $scope.History.Email, FromDate: $scope.History.FromDate.yyyymmdd() }
                 }
                 $http(req).then(function (Result) {
                     if (Result.data.Code == 1) {
                         $scope.ListBooking = Result.data.Data;
+                        if ($scope.ListBooking.length == 0) {
+                            $rootScope.showMessage('Nothing to show');
+                        }
                     }
                     else {
                         $rootScope.showMessage('Something error');

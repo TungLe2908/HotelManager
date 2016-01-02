@@ -16,7 +16,15 @@
 
             $scope.Search = function()
             {
-                $http.post(apiurl + "booking/getBooking", { 'start': $scope.Booking.FromDate,'end': $scope.Booking.ToDate}).then(function (Result) {
+                var req = {
+                    method: 'POST',
+                    url: apiurl + "booking/getBooking",
+                    headers: {
+                        'token': token
+                    },
+                    data: { 'start': $scope.Booking.FromDate.yyyymmdd(), 'end': $scope.Booking.ToDate.yyyymmdd() }
+                }
+                $http(req).then(function (Result) {
                     if (Result.data.Code == 1) {
                         $scope.RoomTypes = Result.data.Data;
                     }
@@ -78,8 +86,8 @@
                         'token': token
                     },
                     data: {
-                        'DateStart': $scope.Booking.FromDate,
-                        'DateEnd': $scope.Booking.ToDate,
+                        'DateStart': $scope.Booking.FromDate.yyyymmdd(),
+                        'DateEnd': $scope.Booking.ToDate.yyyymmdd(),
                         'Email': $scope.Booking.Email,
                         'Quantity': Booking.Quantity,
                         'RoomType': Booking.RoomTypeID

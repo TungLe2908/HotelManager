@@ -17,8 +17,8 @@
                         'token': token
                     },
                     data: {
-                        'start': $scope.Booking.FromDate,
-                        'end': $scope.Booking.ToDate
+                        'start': $scope.Booking.FromDate.yyyymmdd(),
+                        'end': $scope.Booking.ToDate.yyyymmdd()
                     }
                 };
                 $http(req).then(function (Result) {
