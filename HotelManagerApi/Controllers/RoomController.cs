@@ -45,7 +45,7 @@ namespace HotelManagerApi.Controllers
 
         [HttpPost]
         //[CheckToken(new int[]{2})]
-        public ApiResponse DeleteRoom([FromBody] string RoomID)
+        public ApiResponse DeleteRoom([FromBody] int RoomID)
         {
             var del = DB.Rooms.Where(r => r.RoomID == RoomID);
             if (del.Count() >= 1)
@@ -166,7 +166,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpPost]
-        public ApiResponse GetRoomFeature([FromBody] string ID)
+        public ApiResponse GetRoomFeature([FromBody] int ID)
         {
             var rt = DB.RoomTypes.Where(r => r.RoomTypeID == ID);
             if (rt.Count() > 0)
@@ -195,74 +195,90 @@ namespace HotelManagerApi.Controllers
         public ApiResponse GetBooking([FromBody] DateRequest bDate)
         {
             var invalidBookingID = DB.Bookings.Where(b => !(b.DateStart > bDate.end || b.DateEnd < bDate.start) ).Select(id => id.BookingID).ToArray();
+
             var invalidRoom = DB.BookingDetails.Where(r => invalidBookingID.Contains((int)r.BookingID) == true).Select(id => id.RoomID).ToArray();
-            
-            //Đếm số phòng trống theo loại phòng
-            List<RoomTypeResponse> result = new List<RoomTypeResponse>();
-            var listRoomType = DB.RoomTypes.ToArray();
-            foreach(var roomType in listRoomType)
+
+            var invalidRoomType = DB.Rooms.Where(r => invalidRoom.Contains((int)r.RoomID) == true).Select(id => id.RoomTypeID).ToArray();
+
+            var validRoomType = DB.Rooms.Where(r => invalidRoomType.Contains(r.RoomTypeID) == false).Select(id => id.RoomTypeID).ToArray().Distinct();
+
+            if (validRoomType.Count() > 0)
             {
-                var noRoom = DB.Rooms.Where(r => r.RoomTypeID == roomType.RoomTypeID).Where(r => !invalidRoom.Contains(r.RoomID)).Count();
-                if(noRoom>0)
+                List<RoomTypeResponse> result = new List<RoomTypeResponse>();
+                for (int i = 0; i < validRoomType.Count(); i++)
                 {
-                    var Features = GetFeatureName(roomType.ListFeatures.Split(';').ToList());
-                    RoomTypeResponse roomTypeRes = new RoomTypeResponse(roomType, Features, noRoom);
-                    result.Add(roomTypeRes);
+                    RoomTypeResponse r = new RoomTypeResponse();
+                    r.RoomTypeID = (int)validRoomType.ElementAt(i);
+                    RoomType rt = DB.RoomTypes.Where(t => t.RoomTypeID == r.RoomTypeID).First();
+                    r.RoomTypeName = rt.RoomTypeName;
+                    r.Price = (int)rt.Price;
+                    r.NoPeople = (int)rt.NoPeople;
+                    r.Picture = rt.Picture;
+
+                    // 
+                    r.Features = GetFeatureName(rt.ListFeatures.Split(';').ToList());
+                    //r.Features = (rt.ListFeatures.Split(';').ToList());
+                    result.Add(r);
+                    
                 }
+                return ApiResponse.CreateSuccess(result);
+                    
             }
+            else
+                return ApiResponse.CreateFail("No RomType available");
             
-            return ApiResponse.CreateSuccess(result);   
         }
 
-        
         [HttpPost]
-        [CheckToken(new int[] { 0,1,2})]
-        public ApiResponse Book([FromBody] BookingRequest Info) 
+        public ApiResponse Booking([FromBody] BookingRequest Info) 
         {
             // check Info
             if (Info.DateStart > Info.DateEnd || DateTime.Now > Info.DateStart)
                 return ApiResponse.CreateFail("Date is invalid");
 
-            if (PermissionLevel > 0)
-            {
-                var account = DB.Accounts.Where(a => a.Email == Info.Email);
-                if (account.Count() <= 0)
-                    return ApiResponse.CreateFail("Email not exist");
-            }
+            var account = DB.Accounts.Where(a => a.Email == Info.Email);
+            if (account.Count() <= 0)
+                return ApiResponse.CreateFail("Email not exist");
 
-            Booking booking = new Booking()
-            {
-                BookingStatus = false,
-                DateStart = Info.DateStart,
-                DateEnd = Info.DateEnd,
-                Quantity = Info.Quantity,
-                Account = PermissionLevel == 0 ? CurrentAccount.Email : Info.Email,
-            };
+            Booking b = new Booking();
+            b.BookingStatus = false;
+            b.DateStart = Info.DateStart;
+            b.DateEnd = Info.DateEnd;
+            b.Quantity = Info.Quantity;
+            b.Account = Info.Email;
+
             try 
             {
-                var invalidBookingID = DB.Bookings.Where(b => !(b.DateStart > Info.DateStart || b.DateEnd < Info.DateEnd)).Select(id => id.BookingID).ToArray();
+                // Find Room:
+                var invalidBookingID = DB.Bookings.Where(bk => !(bk.DateStart > b.DateEnd || bk.DateEnd < b.DateStart)).Select(id => id.BookingID).ToArray();
+
                 var invalidRoom = DB.BookingDetails.Where(r => invalidBookingID.Contains((int)r.BookingID) == true).Select(id => id.RoomID).ToArray();
 
-                var validBookingRoom = DB.Rooms.Where(r => r.RoomTypeID == Info.RoomType).Where(r => !invalidRoom.Contains(r.RoomID)).ToArray();
-                if(validBookingRoom.Count()<Info.Quantity)
-                {
-                    return ApiResponse.CreateFail("Not enough room to book");
-                }
+                var RoomBeyoundType = DB.Rooms.Where(r => r.RoomTypeID == Info.RoomType).Select(r => r.RoomID).ToArray().Distinct();
 
-                //Book room
-                DB.Bookings.InsertOnSubmit(booking);
-                DB.SubmitChanges();
-                var BookingID = DB.Bookings.Max(b => b.BookingID);
-                for(int i=0;i<Info.Quantity;i++)
+                List<int> validRoom = new List<int>();
+                for (int i = 0; i < RoomBeyoundType.Count(); i++)
                 {
-                    DB.BookingDetails.InsertOnSubmit(new BookingDetail(){
-                        BookingID = BookingID,
-                        RoomID = validBookingRoom[i].RoomID
-                    });
+                    if (invalidRoom.Contains(RoomBeyoundType.ElementAt(i)) == false)
+                    {
+                        validRoom.Add(RoomBeyoundType.ElementAt(i));
+                    }
                 }
-                DB.SubmitChanges();
-                return ApiResponse.CreateSuccess(booking);
+                if (validRoom.Count() <= 0)
+                    return ApiResponse.CreateFail("Can't find available room");
 
+
+                DB.Bookings.InsertOnSubmit(b);
+                DB.SubmitChanges();
+
+                Booking nowBook = DB.Bookings.Where(p => p.Account == Info.Email && p.DateEnd == Info.DateEnd && p.DateStart == Info.DateStart).First();
+
+                BookingDetail bd = new BookingDetail();
+                bd.BookingID = nowBook.BookingID;
+                bd.RoomID = (validRoom.ElementAt(0));
+                DB.BookingDetails.InsertOnSubmit(bd);
+                DB.SubmitChanges();
+                return ApiResponse.CreateSuccess(bd);
             }
             catch (Exception ex)
             {
@@ -271,7 +287,7 @@ namespace HotelManagerApi.Controllers
 
         }
 
-        
+
         /*
         [HttpPost]
         public ApiResponse DeleteRoomType([FromBody] int ID)
