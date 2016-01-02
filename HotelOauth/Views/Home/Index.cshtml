@@ -9,6 +9,10 @@
         height: 100%;
     }
 
+    center{
+        display:none!important;
+    }
+
     .center {
         position: absolute;
         top: 50%;
@@ -68,7 +72,8 @@
 </style>
 <div class="background" layout="column" ng-controller="HomeCtrl as Ctrl">
 
-    <div class="form" ng-init="onlyRegister = '@ViewBag.onlyRegister'">
+    <div class="form"
+         ng-init="onlyRegister = '@ViewBag.onlyRegister';onlyEdit='@ViewBag.onlyEdit';Account.Name='@ViewBag.Name';Account.Email='@ViewBag.Email';Account.Password='@ViewBag.Pass';Account.Phone='@ViewBag.Phone'">
         <div class="title">
             <p>Aloraha Hotel</p>
         </div>
@@ -93,7 +98,7 @@
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Email</label>
                 <md-icon md-svg-src="../Image/ic_email_black_24px.svg"></md-icon>
-                <input ng-model="Account.Email" type="email">
+                <input ng-model="Account.Email" type="email" ng-readonly="onlyEdit">
             </md-input-container>
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Password</label>
@@ -111,8 +116,9 @@
                 <input ng-model="Account.Phone" type="text">
             </md-input-container>
             <section class="groupbtn" layout="row" layout-align="right top" layout-wrap>
-                <md-button class="md-warn" ng-show="!onlyRegister" ng-click="isRegister=false">Back</md-button>
-                <md-button class="md-accent" ng-click="register()">Register</md-button>
+                <md-button class="md-warn" ng-show="!onlyRegister && !onlyEdit" ng-click="isRegister=false">Back</md-button>
+                <md-button class="md-accent" ng-show="!onlyEdit" ng-click="register()">Register</md-button>
+                <md-button class="md-accent" ng-show="onlyEdit" ng-click="update()">Update</md-button>
             </section>
         </div>
     </div>

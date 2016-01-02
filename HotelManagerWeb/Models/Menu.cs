@@ -15,7 +15,7 @@ namespace HotelManagerWeb.Models
             Result.Add(new MenuItem("My account", "/account/index"));
             if (Permission >= 2)
             {
-                Result.Add(new MenuItem("Staff management", "/staff/index"));
+                Result.Add(new MenuItem("Staff management", "/account/staff"));
             }
             Result.Add(new MenuItem("Logout", "/home/logout"));
           

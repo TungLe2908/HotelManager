@@ -13,9 +13,10 @@ namespace Oauth.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class OauthController : ApiController
-    {
-
+    {  
         OauthDataContext DB = new OauthDataContext();
+
+        
         [HttpPost]
         public ApiResponse GetAccount([FromBody] string Token)
         {
@@ -66,5 +67,24 @@ namespace Oauth.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        public ApiResponse UpdateAccount([FromBody]Account account)
+        {
+            var ListAccount = DB.Accounts.Where(a => a.Email == account.Email);
+            if (ListAccount.Count()>0)
+            {
+                ListAccount.First().Name = account.Name;
+                ListAccount.First().Phone = account.Phone;
+                ListAccount.First().Pass = account.Pass;
+                DB.SubmitChanges();
+                return ApiResponse.CreateSuccess(null);
+            }
+            else
+            {
+                return ApiResponse.CreateFail("Email is invalid");
+            }
+        }
+
     }
 }

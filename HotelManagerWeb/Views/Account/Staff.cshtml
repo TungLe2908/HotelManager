@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Staff management";
+}
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 15px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    .xbutton {
+        padding: 5px;
+        cursor: pointer;
+        color: rgb(63,81,181);
+    }
+
+        .xbutton:hover {
+            background-color: rgba(1,1,1,0.1);
+        }
+</style>
+<div ng-controller="StaffCtrl" layout="column">
+    <div layout="row">
+        <md-button class="md-primary" ng-click="Add()">+ Add staff</md-button>
+    </div>
+    <table ng-show="ListStaff.length>0">
+        <tr>
+            <th>
+                No.
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Name
+            </th>
+        </tr>
+        <tr ng-repeat="Staff in ListStaff">
+            <td>
+                {{$index+1}}
+            </td>
+            <td>
+                {{Staff.Email}}
+            </td>
+            <td>
+                {{Staff.Name}}
+            </td>
+            <td layout="row">
+                <div class="xbutton" ng-click="Delete(Staff.Email)">
+                    Delete
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+@section Script
+{
+    <script src="~/Script/StaffCtrl.js"></script>
+}

@@ -53,12 +53,33 @@
                         else {
                             if ($scope.onlyRegister) {
                                 if (Redir) {
-                                    window.location.assign(Redir + Result.Data);
+                                    window.location.assign(Redir + '?email=' + $scope.Account.Email + '&name=' + $scope.Account.Name);
                                 }
                             }
                             else {
 
                                 $scope.login();
+                            }
+                        }
+                    });
+                }
+                else {
+                    showMessage('Please complete all fields');
+                }
+            };
+            $scope.update = function () {
+                if ($scope.Account.Email && $scope.Account.Password && $scope.Account.Phone && $scope.Account.Name) {
+                    $http.post('/api/oauth/updateaccount', { 'Phone': $scope.Account.Phone, 'Name': $scope.Account.Name, 'Email': $scope.Account.Email, 'Pass': $scope.Account.Password }).then(function (Result) {
+                        Result = Result.data;
+                        if (Result.Code == 0) {
+                            showMessage('Something error');
+                        }
+                        else {
+                            showMessage('Update success');
+                            if ($scope.onlyRegister) {
+                                if (Redir) {
+                                    window.location.assign(Redir);
+                                }
                             }
                         }
                     });
