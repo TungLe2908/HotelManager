@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Statistic";
+}
+<style>
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .table  th, .table td {
+        text-align: left;
+        padding: 15px;
+    }
+
+    .table  tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table th {
+        font-weight: bold;
+    }
+
+    .xbutton {
+        padding: 5px;
+        cursor: pointer;
+        color: rgb(63,81,181);
+    }
+
+        .xbutton:hover {
+            background-color: rgba(1,1,1,0.1);
+        }
+</style>
+<div ng-controller="StatisticCtrl" layout="column">
+    <div layout="row">
+        <md-datepicker ng-model="Booking.FromDate" md-placeholder="From Date" ng-change="fromDateChange()">
+        </md-datepicker>
+        <md-datepicker ng-model="Booking.ToDate" md-placeholder="To Date" md-min-date="toDateMin">
+        </md-datepicker>
+        <md-button class="md-primary" ng-click="Search()" ng-disabled="!Booking.FromDate || !Booking.ToDate || Booking.FromDate>=Booking.ToDate">🔎 Search</md-button>
+    </div>
+
+    <table class="table" ng-show="Statis.length>0">
+        <tr>
+            <th>
+                No.
+            </th>
+            <th>
+                Room type
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Total
+            </th>
+
+        </tr>
+        <tr ng-repeat="Stati in Statis">
+            <td>
+                {{$index+1}}
+            </td>
+            <td>
+                {{Stati.RoomTypeName}}
+            </td>
+            <td>
+                {{Stati.Quantity}}
+            </td>
+            <td>
+                ${{Stati.Sum}}
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section Script
+{
+    <script src="~/Script/StatisticCtrl.js"></script>
+}
