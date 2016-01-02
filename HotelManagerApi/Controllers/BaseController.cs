@@ -9,6 +9,7 @@ using System.Web.Http.Cors;
 
 namespace HotelManagerApi.Controllers
 {
+    // token admin: 3591CA70-E393-474E-B5F5-53C96340707F
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BaseController : ApiController
     {

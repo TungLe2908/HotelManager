@@ -5,7 +5,7 @@ using System.Web;
 
 namespace HotelManagerApi.Models
 {
-    public class AddStaffRequest
+    public class AddAccountRequest
     {
         public string Email { set; get; }
         public string Name { set; get; }

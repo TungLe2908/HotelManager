@@ -15,7 +15,7 @@ namespace HotelManagerApi.Controllers
     {
         [HttpPost]
         [CheckToken(new int[] { 2 })]
-        public ApiResponse AddStaffAccount([FromBody] AddStaffRequest Staff)
+        public ApiResponse AddStaffAccount([FromBody] AddAccountRequest Staff)
         {
             try
             {
@@ -28,6 +28,23 @@ namespace HotelManagerApi.Controllers
                 return ApiResponse.CreateFail(ex.Message);
             }
         }
+
+        [HttpPost]
+        [CheckToken(new int[] { 1, 2 })]
+        public ApiResponse AddCusAccount([FromBody] AddAccountRequest Cus)
+        {
+            try
+            {
+                DB.Accounts.InsertOnSubmit(new Account() { Email = Cus.Email, Permission = 0, Name = Cus.Name });
+                DB.SubmitChanges();
+                return ApiResponse.CreateSuccess(null);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.CreateFail(ex.Message);
+            }
+        }
+
 
         [HttpPost]
         [CheckToken(new int[] { 2 })]
