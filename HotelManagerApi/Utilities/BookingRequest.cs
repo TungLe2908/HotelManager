@@ -9,7 +9,7 @@ namespace HotelManagerApi.Utilities
     {
         public string Email { get; set; }
 
-        public int RoomType { get; set; }
+        public string RoomType { get; set; }
 
         public DateTime DateStart { get; set; }
 

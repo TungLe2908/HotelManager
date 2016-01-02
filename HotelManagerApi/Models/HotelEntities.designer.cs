@@ -48,6 +48,9 @@ namespace HotelManagerApi.Models
     partial void InsertRoomFeature(RoomFeature instance);
     partial void UpdateRoomFeature(RoomFeature instance);
     partial void DeleteRoomFeature(RoomFeature instance);
+    partial void InsertBookingDetail(BookingDetail instance);
+    partial void UpdateBookingDetail(BookingDetail instance);
+    partial void DeleteBookingDetail(BookingDetail instance);
     #endregion
 		
 		public HotelEntitiesDataContext() : 
@@ -104,14 +107,6 @@ namespace HotelManagerApi.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<BookingDetail> BookingDetails
-		{
-			get
-			{
-				return this.GetTable<BookingDetail>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Permission> Permissions
 		{
 			get
@@ -133,6 +128,14 @@ namespace HotelManagerApi.Models
 			get
 			{
 				return this.GetTable<RoomFeature>();
+			}
+		}
+		
+		public System.Data.Linq.Table<BookingDetail> BookingDetails
+		{
+			get
+			{
+				return this.GetTable<BookingDetail>();
 			}
 		}
 	}
@@ -229,7 +232,7 @@ namespace HotelManagerApi.Models
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _RoomTypeID;
+		private string _RoomTypeID;
 		
 		private string _RoomTypeName;
 		
@@ -245,7 +248,7 @@ namespace HotelManagerApi.Models
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnRoomTypeIDChanging(int value);
+    partial void OnRoomTypeIDChanging(string value);
     partial void OnRoomTypeIDChanged();
     partial void OnRoomTypeNameChanging(string value);
     partial void OnRoomTypeNameChanged();
@@ -264,8 +267,8 @@ namespace HotelManagerApi.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomTypeID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int RoomTypeID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomTypeID", DbType="NVarChar(10) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string RoomTypeID
 		{
 			get
 			{
@@ -611,51 +614,6 @@ namespace HotelManagerApi.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="alo895cb_congnghemoi.BookingDetail")]
-	public partial class BookingDetail
-	{
-		
-		private System.Nullable<int> _BookingID;
-		
-		private System.Nullable<int> _RoomID;
-		
-		public BookingDetail()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BookingID", DbType="Int")]
-		public System.Nullable<int> BookingID
-		{
-			get
-			{
-				return this._BookingID;
-			}
-			set
-			{
-				if ((this._BookingID != value))
-				{
-					this._BookingID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomID", DbType="Int")]
-		public System.Nullable<int> RoomID
-		{
-			get
-			{
-				return this._RoomID;
-			}
-			set
-			{
-				if ((this._RoomID != value))
-				{
-					this._RoomID = value;
-				}
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="alo895cb_congnghemoi.Permission")]
 	public partial class Permission : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -748,17 +706,17 @@ namespace HotelManagerApi.Models
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _RoomID;
+		private string _RoomID;
 		
-		private System.Nullable<int> _RoomTypeID;
+		private string _RoomTypeID;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnRoomIDChanging(int value);
+    partial void OnRoomIDChanging(string value);
     partial void OnRoomIDChanged();
-    partial void OnRoomTypeIDChanging(System.Nullable<int> value);
+    partial void OnRoomTypeIDChanging(string value);
     partial void OnRoomTypeIDChanged();
     #endregion
 		
@@ -767,8 +725,8 @@ namespace HotelManagerApi.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int RoomID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomID", DbType="NVarChar(10) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string RoomID
 		{
 			get
 			{
@@ -787,8 +745,8 @@ namespace HotelManagerApi.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomTypeID", DbType="Int")]
-		public System.Nullable<int> RoomTypeID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomTypeID", DbType="NVarChar(10)")]
+		public string RoomTypeID
 		{
 			get
 			{
@@ -889,6 +847,92 @@ namespace HotelManagerApi.Models
 					this._FeatureName = value;
 					this.SendPropertyChanged("FeatureName");
 					this.OnFeatureNameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="alo895cb_congnghemoi.BookingDetail")]
+	public partial class BookingDetail : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _BookingID;
+		
+		private string _RoomID;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnBookingIDChanging(int value);
+    partial void OnBookingIDChanged();
+    partial void OnRoomIDChanging(string value);
+    partial void OnRoomIDChanged();
+    #endregion
+		
+		public BookingDetail()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BookingID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int BookingID
+		{
+			get
+			{
+				return this._BookingID;
+			}
+			set
+			{
+				if ((this._BookingID != value))
+				{
+					this.OnBookingIDChanging(value);
+					this.SendPropertyChanging();
+					this._BookingID = value;
+					this.SendPropertyChanged("BookingID");
+					this.OnBookingIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomID", DbType="NVarChar(10) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string RoomID
+		{
+			get
+			{
+				return this._RoomID;
+			}
+			set
+			{
+				if ((this._RoomID != value))
+				{
+					this.OnRoomIDChanging(value);
+					this.SendPropertyChanging();
+					this._RoomID = value;
+					this.SendPropertyChanged("RoomID");
+					this.OnRoomIDChanged();
 				}
 			}
 		}
