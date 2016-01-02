@@ -62,6 +62,12 @@ namespace HotelManagerApi.Controllers
             }
         }
 
+        [HttpGet]
+        [CheckToken(new int[]{1,2})]
+        public ApiResponse getRoom()
+        {
+            return ApiResponse.CreateSuccess(DB.Rooms.ToArray());
+        }
 
 
         [HttpPost]
