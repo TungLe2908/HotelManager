@@ -97,8 +97,9 @@
     <Content Include="Script\BookingCtrl.js" />
     <Content Include="Script\BookManCtrl.js" />
     <Content Include="Script\HomeCtrl.js" />
+    <Content Include="Script\RoomCtrl.js" />
     <Content Include="Script\StaffCtrl.js" />
-    <Content Include="Views\Booking\Dialog.html" />
+    <Content Include="Script\StatisticCtrl.js" />
     <Content Include="Views\Home\Index.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -115,6 +116,8 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RoomController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -134,6 +137,8 @@
     <Content Include="Views\Booking\Index.cshtml" />
     <Content Include="Views\Booking\Management.cshtml" />
     <Content Include="Views\Account\Staff.cshtml" />
+    <Content Include="Views\Room\Index.cshtml" />
+    <Content Include="Views\Statistic\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

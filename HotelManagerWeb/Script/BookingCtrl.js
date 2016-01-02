@@ -96,6 +96,10 @@
                 });
             }
 
+            $scope.AddCus = function () {
+                location.href = 'http://hoteloauth.somee.com/home/register?redir=' + location.origin + "/account/addcus"
+            };
+
         };
 
         init();

@@ -27,6 +27,17 @@ namespace HotelManagerWeb.Controllers
             return Redirect("/account/staff");
         }
 
+        [CheckPermission(new int[] { 1 , 2 })]
+        public ActionResult AddCus(String Email, String Name)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Token", Session.GetToken());
+                var Result = client.PostAsJsonAsync(GetConfig.Get("ApiUrl") + "account/AddCusAccount", new { Email = Email, Name = Name }).Result;
+            }
+            return Redirect("/booking/index");
+        }
+
         public ActionResult Index()
         {
             return Redirect("http://www.hoteloauth.somee.com/home/account?token="+Session.GetToken()+"&redir="+Request.UrlReferrer);

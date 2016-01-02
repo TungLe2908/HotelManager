@@ -12,11 +12,15 @@ namespace HotelManagerWeb.Models
             var Result = new Menu();
             Result.Add(new MenuItem("Booking", "/booking/index"));
             Result.Add(new MenuItem("Booking management", "/booking/management"));
-            Result.Add(new MenuItem("My account", "/account/index"));
             if (Permission >= 2)
             {
                 Result.Add(new MenuItem("Staff management", "/account/staff"));
             }
+            if(Permission>=1)
+            {
+                Result.Add(new MenuItem("Statistic", "/statistic/index"));
+            }
+            Result.Add(new MenuItem("My account", "/account/index"));
             Result.Add(new MenuItem("Logout", "/home/logout"));
           
 
