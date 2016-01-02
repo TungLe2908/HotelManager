@@ -9,7 +9,7 @@ namespace HotelManagerApi.Models
     {
         public string RoomTypeID { get; set; }
         public string RoomTypeName { get; set; }
-        public int Quantity { get; set; }
-        public long Sum { get; set; }
+        public double Quantity { get; set; }
+        public double Sum { get; set; }
     }
 }
