@@ -4,6 +4,11 @@
     function BookManCtrl($scope, $mdToast, $rootScope, $http,$mdDialog, $mdMedia) {
         var init = function () {
             var ListAcc = [];
+            $scope.History = {
+                'Email': CusEmail,
+                'FromDate': null,
+            };
+
             $scope.ListBooking = [];
             $scope.getAccount = function () {
                 if (permission > 0) {
@@ -17,6 +22,9 @@
                     $http(req).then(function (Result) {
                         if (Result.data.Code == 1) {
                             ListAcc = Result.data.Data;
+                            if (CusEmail) {
+                                $scope.Search();
+                            }
                         }
                         else {
 
@@ -35,11 +43,14 @@
                 return Result;
             }
             $scope.Search = function () {
+                var reqdata = {};
                 if (permission > 0) {
                     if ((!$scope.History.Email || !ListAcc.contains($scope.History.Email)) && !$scope.History.FromDate) {
                             $rootScope.showMessage('Enter correct condition');
                             return;
-                        }
+                    }
+                    var date = $scope.History.FromDate != null ? $scope.History.FromDate.yyyymmdd() : null;
+                    reqdata= { Email: $scope.History.Email, FromDate: date};
                 }
                 var req = {
                     method: 'POST',
@@ -47,7 +58,7 @@
                     headers: {
                         'token': token
                     },
-                    data: { Email: $scope.History.Email, FromDate: $scope.History.FromDate.yyyymmdd() }
+                    data:reqdata
                 }
                 $http(req).then(function (Result) {
                     if (Result.data.Code == 1) {
@@ -114,10 +125,15 @@
             }
         }
         init();
-        $scope.getAccount();
+        
         if(permission==0)
         {
             $scope.Search();
         }
+        else
+        {
+            $scope.getAccount();
+        }
+ 
     }
 })()

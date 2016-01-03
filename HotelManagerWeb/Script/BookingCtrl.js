@@ -95,8 +95,13 @@
                 }
                 $http(req).then(function (Result) {
                     if (Result.data.Code == 1) {
+                        var ex = '';
+                        if (permission > 0)
+                        {
+                            ex = '?email=' + $scope.Booking.Email;
+                        }
                         $rootScope.showMessage('Booking success');
-                        location.href = '/booking/management';
+                        location.href = '/booking/management'+ex;
                     }
                     else {
                         $rootScope.showMessage('Booking error');
