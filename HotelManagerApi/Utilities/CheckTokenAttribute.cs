@@ -22,59 +22,85 @@ namespace HotelManagerApi.Utilities
                 {
                     string Token = actionContext.Request.Headers.GetValues("token").First();
                     int PermissionLevel = -1;
-                    ApiResponse<OauthAccount> Result = null;
-                    using (var client = new HttpClient())
+                    OauthAccount Oauth = null;
+                    if (Token.Contains("facebook~"))
                     {
-                        String JsonResult = client.PostAsJsonAsync(GetConfig.Get("OauthUri") + "getaccount", Token).Result.Content.ReadAsStringAsync().Result;
-                        Result = JsonConvert.DeserializeObject<ApiResponse<OauthAccount>>(JsonResult);
-                    }
-
-
-                    if (Result.Code == ReturnCode.Fail)
-                    {
-                        actionContext.Response = new System.Net.Http.HttpResponseMessage()
+                        Token = Token.Replace("facebook~", "");
+                        using (var client = new HttpClient())
                         {
-                            Content = new StringContent("Access token is incorrect"),
-                            StatusCode = HttpStatusCode.Unauthorized
-                        };
-                    }
-                    else
-                    {
-                        using (var DB = new HotelEntitiesDataContext())
-                        {
-                            var ListAccount = DB.Accounts.Where(acc => acc.Email == Result.Data.Email);
-                            if (ListAccount.Count() == 0)
-                            {
-                                DB.Accounts.InsertOnSubmit(new Account() { Email = Result.Data.Email, Name= Result.Data.Name, Permission = 0 });
-                                DB.SubmitChanges();
-                                PermissionLevel = 0;
-                            }
-                            else
-                            {
-                                var account = ListAccount.First();
-                                if(account.Name!=Result.Data.Name)
-                                {
-                                    account.Name = Result.Data.Name;
-                                    DB.SubmitChanges();
-                                }
-                                PermissionLevel = account.Permission.Value;
-                            }
-                            if (PermissionLevelList.Contains(PermissionLevel))
-                            {
-                                ((BaseController)actionContext.ControllerContext.Controller).PermissionLevel = PermissionLevel;
-                                ((BaseController)actionContext.ControllerContext.Controller).CurrentAccount = Result.Data;
-                            }
-                            else
+                            String JsonResult = client.GetStringAsync("https://graph.facebook.com/me?fields=email,name&access_token=" + Token).Result;
+                            if (JsonResult.Contains("error"))
                             {
                                 actionContext.Response = new System.Net.Http.HttpResponseMessage()
                                 {
-                                    Content = new StringContent("Insufficient permission to perform"),
+                                    Content = new StringContent("Access token is incorrect"),
                                     StatusCode = HttpStatusCode.Unauthorized
                                 };
+                                return;
                             }
+                            JsonResult = JsonResult.Replace("email", "Email").Replace("name", "Name");
+                            Oauth = JsonConvert.DeserializeObject<OauthAccount>(JsonResult);
+                        }
+
+                    }
+                    else
+                    {
+                        ApiResponse<OauthAccount> Result = null;
+                        using (var client = new HttpClient())
+                        {
+                            String JsonResult = client.PostAsJsonAsync(GetConfig.Get("OauthUri") + "getaccount", Token).Result.Content.ReadAsStringAsync().Result;
+                            Result = JsonConvert.DeserializeObject<ApiResponse<OauthAccount>>(JsonResult);
+                        }
+
+
+                        if (Result.Code == ReturnCode.Fail)
+                        {
+                            actionContext.Response = new System.Net.Http.HttpResponseMessage()
+                            {
+                                Content = new StringContent("Access token is incorrect"),
+                                StatusCode = HttpStatusCode.Unauthorized
+                            };
+                            return;
+                        }
+
+                        Oauth = Result.Data;
+                    }
+
+                    using (var DB = new HotelEntitiesDataContext())
+                    {
+                        var ListAccount = DB.Accounts.Where(acc => acc.Email == Oauth.Email);
+                        if (ListAccount.Count() == 0)
+                        {
+                            DB.Accounts.InsertOnSubmit(new Account() { Email = Oauth.Email, Name = Oauth.Name, Permission = 0 });
+                            DB.SubmitChanges();
+                            PermissionLevel = 0;
+                        }
+                        else
+                        {
+                            var account = ListAccount.First();
+                            if (account.Name != Oauth.Name)
+                            {
+                                account.Name = Oauth.Name;
+                                DB.SubmitChanges();
+                            }
+                            PermissionLevel = account.Permission.Value;
+                        }
+                        if (PermissionLevelList.Contains(PermissionLevel))
+                        {
+                            ((BaseController)actionContext.ControllerContext.Controller).PermissionLevel = PermissionLevel;
+                            ((BaseController)actionContext.ControllerContext.Controller).CurrentAccount = Oauth;
+                        }
+                        else
+                        {
+                            actionContext.Response = new System.Net.Http.HttpResponseMessage()
+                            {
+                                Content = new StringContent("Insufficient permission to perform"),
+                                StatusCode = HttpStatusCode.Unauthorized
+                            };
                         }
                     }
                 }
+
                 else
                 {
                     actionContext.Response = new System.Net.Http.HttpResponseMessage()

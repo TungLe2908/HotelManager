@@ -58,7 +58,10 @@
             </p>
 
         </div>
-        <md-button class="md-raised md-warn topright" ng-click="login()">Login</md-button>
+        <div layout="row" class="topright">
+            <md-button class="md-raised md-warn" ng-click="login()">Login</md-button>
+            <md-button class="md-raised md-primary" ng-click="facebooklogin()">Facebook login</md-button>
+        </div>
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>

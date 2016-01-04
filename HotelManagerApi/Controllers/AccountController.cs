@@ -19,11 +19,11 @@ namespace HotelManagerApi.Controllers
         {
             try
             {
-                DB.Accounts.InsertOnSubmit(new Account(){Email=Staff.Email,Permission=1,Name=Staff.Name});
+                DB.Accounts.InsertOnSubmit(new Account() { Email = Staff.Email, Permission = 1, Name = Staff.Name });
                 DB.SubmitChanges();
                 return ApiResponse.CreateSuccess(null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ApiResponse.CreateFail(ex.Message);
             }
@@ -53,7 +53,7 @@ namespace HotelManagerApi.Controllers
             try
             {
                 var ListStaff = DB.Accounts.Where(a => a.Email == Email && a.Permission == 1);
-                if(ListStaff.Count()>0)
+                if (ListStaff.Count() > 0)
                 {
                     DB.Accounts.DeleteOnSubmit(ListStaff.First());
                     DB.SubmitChanges();
@@ -69,7 +69,7 @@ namespace HotelManagerApi.Controllers
         }
 
         [HttpGet]
-        [CheckToken(new int[] { 0,1,2})]
+        [CheckToken(new int[] { 0, 1, 2 })]
         public ApiResponse GetAccount()
         {
             return ApiResponse.CreateSuccess(CurrentAccount);
@@ -79,15 +79,15 @@ namespace HotelManagerApi.Controllers
         [CheckToken(new int[] { 1, 2 })]
         public ApiResponse GetCusAccount()
         {
-            var ListAcc = DB.Accounts.Where(a => a.Permission == 0).Select(a => a.Email).ToArray();
+            var ListAcc = DB.Accounts.Where(a => a.Permission == 0).Select(a => new { Email = a.Email, Name = a.Name }).ToArray();
             return ApiResponse.CreateSuccess(ListAcc);
         }
 
         [HttpGet]
-        [CheckToken(new int[]{2})]
+        [CheckToken(new int[] { 2 })]
         public ApiResponse GetStaffAccount()
         {
-            var ListAcc = DB.Accounts.Where(a => a.Permission == 1).Select(a=>new {Email=a.Email,Name=a.Name}).ToArray();
+            var ListAcc = DB.Accounts.Where(a => a.Permission == 1).Select(a => new { Email = a.Email, Name = a.Name }).ToArray();
             return ApiResponse.CreateSuccess(ListAcc);
         }
     }

@@ -8,6 +8,12 @@
                 'Email': CusEmail,
                 'FromDate': null,
             };
+            $scope.User = null;
+            if (CusEmail) {
+                $scope.User = {
+                    'Email': CusEmail
+                }
+            };
 
             $scope.ListBooking = [];
             $scope.getAccount = function () {
@@ -33,24 +39,34 @@
                 }
             }
             $scope.searchAccount = function (text) {
-                if (!text) return ListAcc;
                 var Result = [];
                 for (var i = 0; i < ListAcc.length; i++) {
-                    if (ListAcc[i].indexOf(text) > -1) {
+                    var Acc = (ListAcc[i].Email + ' ' + ListAcc[i].Name).toLowerCase();
+                    if (Acc.indexOf(text.toLowerCase()) > -1) {
                         Result.push(ListAcc[i]);
                     }
                 }
                 return Result;
             }
+
+            var IsEmail = function (Email) {
+                for (var i = 0; i < ListAcc.length; i++) {
+                    if (ListAcc[i].Email == Email)
+                        return true;
+                }
+                return false;
+            }
+
             $scope.Search = function () {
                 var reqdata = {};
                 if (permission > 0) {
-                    if ((!$scope.History.Email || !ListAcc.contains($scope.History.Email)) && !$scope.History.FromDate) {
+                    if ((!$scope.User || !IsEmail($scope.User.Email)) && !$scope.History.FromDate) {
                             $rootScope.showMessage('Enter correct condition');
                             return;
                     }
                     var date = $scope.History.FromDate != null ? $scope.History.FromDate.yyyymmdd() : null;
-                    reqdata= { Email: $scope.History.Email, FromDate: date};
+                    var email = $scope.User ? $scope.User.Email : null;
+                    reqdata= { Email:email, FromDate: date};
                 }
                 var req = {
                     method: 'POST',

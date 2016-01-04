@@ -12,6 +12,9 @@
         background-size: cover;
 
     }
+    .md-autocomplete-suggestions-container{
+        width:350px;
+    }
 </style>
 <div ng-controller="BookingCtrl" layout="column">
     <div layout="row">
@@ -22,13 +25,13 @@
         <md-button class="md-primary" ng-click="Search()" ng-disabled="!Booking.FromDate || !Booking.ToDate || Booking.FromDate>=Booking.ToDate">🔎 Search</md-button>
     </div>
     <div layout="row">
-        <md-autocomplete md-selected-item="Booking.Email" md-search-text="searchText"
+        <md-autocomplete md-selected-item="User" md-search-text="searchText"
                          md-floating-label="Customer email"
-                         md-items="item in searchAccount(searchText)" md-item-text="item"
-                         ng-show="permission>0"
+                         md-items="item in searchAccount(searchText)" md-item-text="item.Email"
+                         ng-show="permission>0" md-menu-class="autocomplete-custom-template"
                          style="max-width:350px;margin-left:20px;margin-top:-15px;margin-bottom:-60px">
             <md-item-template>
-                <span md-highlight-text="searchText">{{item}}</span>
+                <span class="block" md-highlight-text="searchText">{{item.Email +' | '+item.Name}}</span>
             </md-item-template>
             <md-not-found>
                 No matches found.

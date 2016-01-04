@@ -27,15 +27,18 @@
     .xbutton:hover{
         background-color:rgba(1,1,1,0.1)
     }
+        .md-autocomplete-suggestions-container{
+        width:350px;
+    }
 </style>
 <div ng-controller="BookManCtrl" layout="column">
     <div layout="row" ng-show="permission>0">
-        <md-autocomplete md-selected-item="History.Email" md-search-text="searchText"
+        <md-autocomplete md-selected-item="User" md-search-text="searchText"
                          md-floating-label="Customer email"
-                         md-items="item in searchAccount(searchText)" md-item-text="item"
+                         md-items="item in searchAccount(searchText)" md-item-text="item.Email"
                          style="max-width:400px;margin-left:20px;margin-top:-15px;margin-bottom:-60px">
             <md-item-template>
-                <span md-highlight-text="searchText">{{item}}</span>
+                <span class="block" md-highlight-text="searchText">{{item.Email +' | '+item.Name}}</span>
             </md-item-template>
             <md-not-found>
                 No matches found.
@@ -57,6 +60,9 @@
                 Check out
             </th>
             <th>
+                Email
+            </th>
+            <th>
                 Room type
             </th>
             <th>
@@ -75,6 +81,9 @@
             </td>
             <td>
                 {{Booking.DateEnd | date:'dd/MM/yyyy'}}
+            </td>
+            <td>
+                {{Booking.Email}}
             </td>
             <td>
                 {{Booking.RoomType}}

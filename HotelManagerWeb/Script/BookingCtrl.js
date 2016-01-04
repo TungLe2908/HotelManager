@@ -5,6 +5,7 @@
         var init = function () {
             $scope.toDay = new Date();
             $scope.Booking = {};
+            $scope.User = null;
             $scope.RoomTypes = [];
             var ListAcc = [];
 
@@ -62,7 +63,8 @@
                 var Result = [];
                 for(var i=0;i<ListAcc.length;i++)
                 {
-                    if(ListAcc[i].indexOf(text)>-1)
+                    var Acc = (ListAcc[i].Email + ' ' + ListAcc[i].Name).toLowerCase();
+                    if (Acc.indexOf(text.toLowerCase()) > -1)
                     {
                         Result.push(ListAcc[i]);
                     }
@@ -70,11 +72,21 @@
                 return Result;
             }
            
+            var IsEmail = function(Email)
+            {
+                for(var i=0;i<ListAcc.length;i++)
+                {
+                    if (ListAcc[i].Email == Email)
+                        return true;
+                }
+                return false;
+            }
+
             $scope.Book = function(Booking)
             {
                 if (permission > 0)
                 {
-                    if (!$scope.Booking.Email || !ListAcc.contains($scope.Booking.Email)) {
+                    if (!$scope.User.Email || !IsEmail($scope.User.Email)) {
                         $rootScope.showMessage('Enter correct customer email!');
                         return;
                     }
@@ -88,7 +100,7 @@
                     data: {
                         'DateStart': $scope.Booking.FromDate.yyyymmdd(),
                         'DateEnd': $scope.Booking.ToDate.yyyymmdd(),
-                        'Email': $scope.Booking.Email,
+                        'Email': $scope.User.Email,
                         'Quantity': Booking.Quantity,
                         'RoomType': Booking.RoomTypeID
                     }
@@ -98,7 +110,7 @@
                         var ex = '';
                         if (permission > 0)
                         {
-                            ex = '?email=' + $scope.Booking.Email;
+                            ex = '?email=' + $scope.User.Email;
                         }
                         $rootScope.showMessage('Booking success');
                         location.href = '/booking/management'+ex;

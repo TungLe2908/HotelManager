@@ -40,6 +40,11 @@ namespace HotelManagerWeb.Controllers
 
         public ActionResult Index()
         {
+            var Token = Session.GetToken();
+            if (Token.Contains("facebook~"))
+            {
+                return Redirect("https://www.facebook.com");
+            }
             return Redirect("http://www.hoteloauth.somee.com/home/account?token="+Session.GetToken()+"&redir="+Request.UrlReferrer);
         }
     }
