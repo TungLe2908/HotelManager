@@ -24,57 +24,64 @@
             color: rgba(31,0,77,1);
         }
 
-        .full{
-            height:100%;
-            width:100%;
+        .full {
+            height: 100%;
+            width: 100%;
         }
 
-        .fullheight{
-            height:100%;
+        .fullheight {
+            height: 100%;
         }
 
-        .navtra{
-            background-color:rgba(1,1,1,0.5) !important;
+        .navtra {
+            background-color: rgba(1,1,1,0.5) !important;
         }
-        .toolbar{
-            background-color:#f9f9f9 !important;
+
+        .toolbar {
+            background-color: #f9f9f9 !important;
         }
-        .nav-header{
-            color:white;
-            text-align:center;
-            margin-top:15px;
-            height:100%;
+
+        .nav-header {
+            color: white;
+            text-align: center;
+            margin-top: 15px;
+            height: 100%;
         }
-        .logo{
-            height:100px;
+
+        .logo {
+            height: 100px;
         }
-        .transparent{
-            background-color:transparent !important;
+
+        .transparent {
+            background-color: transparent !important;
         }
-        .menuitem{
-            color:white;
-            text-align:center;
-            border-top:solid thin;
-            border-bottom:solid thin;
+
+        .menuitem {
+            color: white;
+            text-align: center;
+            border-top: solid thin;
+            border-bottom: solid thin;
             border-color: rgba(255,255,255,0.3) !important;
-            margin:30px 10px;
+            margin: 30px 10px;
         }
-        .menuitem:hover{
-            background-color:rgba(255,255,255,0.3) !important;
-            cursor:pointer;
-        }
-        .title{
-            color:rgba(31,0,77,1)!important;
-            font-size:x-large;
-            margin-left:20px;
+
+            .menuitem:hover {
+                background-color: rgba(255,255,255,0.3) !important;
+                cursor: pointer;
+            }
+
+        .title {
+            color: rgba(31,0,77,1) !important;
+            font-size: x-large;
+            margin-left: 20px;
         }
     </style>
     <div class="full background" ng-controller="MainCtrl" layout="row">
         <md-sidenav layout="column" class="site-sidenav md-sidenav-left md-whiteframe-z2 navtra" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
             <header class="nav-header">
                 <img src="~/Image/Logo.png" class="logo" />
-                    <h2 class="md-heading">Aloraha Hotel</h2>
-                
+                <h2 class="md-heading">Aloraha Hotel</h2>
+
             </header>
             <md-content ng-view md-scroll-y flex layout-padding class="transparent">
                 @foreach (var item in ViewBag.MenuItems)
@@ -94,7 +101,7 @@
                 @RenderBody()
             </md-content>
         </div>
-        
+
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -105,86 +112,13 @@
     <!-- Angular Material Library -->
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
     <script>
-        Date.prototype.addDays = function(days)
-        {
-            var dat = new Date(this.valueOf());
-            dat.setDate(dat.getDate() + days);
-            return dat;
-        };
-        Date.prototype.yyyymmdd = function() {
-            var yyyy = this.getFullYear().toString();
-            var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-            var dd  = this.getDate().toString();
-            return yyyy + "/" +(mm[1]?mm:"0"+mm[0]) + "/" +(dd[1]?dd:"0"+dd[0]); // padding
-        };
-        Array.prototype.contains = function(obj) {
-            var i = this.length;
-            while (i--) {
-                if (this[i] === obj) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        var permission = @ViewBag.Permission;
         var token = '@ViewBag.Token';
-        var apiurl = "http://localhost:6533/api/";
-        var app = angular.module('Hotel', ['ngMaterial']);
-        app.directive('focusMe', function($timeout) {
-            return {
-                scope: { trigger: '=focusMe' },
-                link: function(scope, element) {
-                    scope.$watch('trigger', function(value) {
-                        if(value === true) { 
-                            //console.log('trigger',value);
-                            //$timeout(function() {
-                            element[0].focus();
-                            scope.trigger = false;
-                            //});
-                        }
-                    });
-                }
-            };
-        });
-        app.filter('range', function() {
-            return function(input, total) {
-                total = parseInt(total);
-
-                for (var i=1; i<=total; i++) {
-                    input.push(i);
-                }
-
-                return input;
-            };
-        });
-
-
-        app.controller("MainCtrl", MainCtrl);
-        function MainCtrl($scope,$rootScope,$mdToast,$document) {
-            $rootScope.permission = permission;
-            $scope.Navigate = function(Link) {
-                location.href = Link;
-            }
-            $rootScope.showMessage = function (mes) {
-                var Position = {
-                    bottom: false,
-                    top: true,
-                    left: false,
-                    right: true
-                };
-
-                var getToastPosition = function () {
-                    return Object.keys(Position)
-                      .filter(function (pos) { return Position[pos]; })
-                      .join(' ');
-                };
-                $mdToast.show($mdToast.simple().textContent(mes).position(getToastPosition()).hideDelay(3000));
-            }
-        }
+        var permission = @ViewBag.Permission;
     </script>
-    @RenderSection("Script",false)
-    
-    
+    <script type="text/javascript" src="~/Script/App.js"></script>
+    @RenderSection("Script", false)
+
+
 </body>
 
 </html>

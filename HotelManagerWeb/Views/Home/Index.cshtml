@@ -18,6 +18,10 @@
             height: 100%;
         }
 
+        td{
+            padding:5px;
+        }
+
         .title {
             font-size: 80px;
             margin-bottom: -25px;
@@ -37,6 +41,11 @@
         .topright {
             position: absolute;
             top: 10px;
+            right: 10px;
+        }
+        .botright {
+            position: absolute;
+            bottom: 10px;
             right: 10px;
         }
 
@@ -62,6 +71,18 @@
             <md-button class="md-raised md-warn" ng-click="login()">Login</md-button>
             <md-button class="md-raised md-primary" ng-click="facebooklogin()">Facebook login</md-button>
         </div>
+
+        <div class="botright" style="background-color: rgba(0,0,0,0.5);color:white;">
+            <md-button class="md-warn" ng-click="showweather=!showweather">Weather Today</md-button>
+            <table ng-show="showweather">
+                <tr ng-repeat="weather in Weather">
+                    <td>{{weather.Name}}</td>
+                    <td>{{weather.Status}}</td>
+                    <td>{{weather.Min +'&deg;-'+ weather.Max+'&deg;C'}}</td>
+                </tr>
+            </table>
+        </div>
+
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
@@ -70,6 +91,7 @@
 
     <!-- Angular Material Library -->
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+    <script type="text/javascript" src="~/Script/App.js"></script>
     <script src="~/Script/HomeCtrl.js"></script>
 </body>
 </html>

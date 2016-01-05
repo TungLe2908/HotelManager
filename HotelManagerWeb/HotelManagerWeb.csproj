@@ -94,6 +94,7 @@
     <Content Include="Global.asax" />
     <Content Include="Image\Logo.png" />
     <Content Include="Image\Wallpaper.jpg" />
+    <Content Include="Script\App.js" />
     <Content Include="Script\BookingCtrl.js" />
     <Content Include="Script\BookManCtrl.js" />
     <Content Include="Script\HomeCtrl.js" />
@@ -106,7 +107,9 @@
     <Content Include="Views\_ViewStart.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -139,6 +142,7 @@
     <Content Include="Views\Account\Staff.cshtml" />
     <Content Include="Views\Room\Index.cshtml" />
     <Content Include="Views\Statistic\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\Aloraha web.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

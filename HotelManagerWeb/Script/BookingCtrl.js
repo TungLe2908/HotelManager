@@ -100,7 +100,7 @@
                     data: {
                         'DateStart': $scope.Booking.FromDate.yyyymmdd(),
                         'DateEnd': $scope.Booking.ToDate.yyyymmdd(),
-                        'Email': $scope.User.Email,
+                        'Email': $scope.User?$scope.User.Email:null,
                         'Quantity': Booking.Quantity,
                         'RoomType': Booking.RoomTypeID
                     }
